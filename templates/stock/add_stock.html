@@ -1,0 +1,234 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-primary text-white">
+                    <div class="card-body">Daily Stock Register</div>
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"> </h5>
+                                   <form action="" method="post" name="myform">
+                                      {% csrf_token %}
+                                          <div class="form-row">
+                                              <div class="col-md-3 mb-2">
+                                                      <label for="name">Date</label>
+                                                      {{forms.date}}
+                                              </div>
+                                              <div class="col-md-9 mb-2">
+                                                      <label for="name">Description</label>
+                                                       {{forms.note}}
+                                              </div>
+                                          </div>
+                                      <br>
+                                         <div class="card border-secondary mb-3" style="max-width: 100rem;">
+                                          <div class="card-header">Tank One HSD</div>
+                                              <div class="card-body text-secondary">
+                                                  <div class="form-row">
+                                                        <div class="col-md-2 mb-2">
+                                                          <label for="name">Dip(MM)</label>
+                                                         {{forms.dip_one_hsd}}
+                                                      </div>
+
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">Ltrs</label>
+                                                         {{forms.ltrs_one_hsd}}
+                                                      </div>
+                                                      <hr>
+
+                                                       <div class="col-md-3 mb-2">
+                                                          <label for="name">Tank Previous Stock</label>
+                                                         {{forms.stock_one_hsd}}
+                                                      </div>
+                                                  </div>
+
+                                                   <div class="form-row">
+                                                        <div class="col-md-2 mb-2">
+                                                          <label for="name">Diff-Ltrs</label>
+                                                         {{forms.diff_ltrs_one_hsd}}
+                                                      </div>
+                                                       <hr>
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">Sale</label>
+                                                         {{forms.sale_one_hsd}}
+                                                      </div>
+                                                   </div>
+                                                   <div class="form-row">
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">Tank One Status</label>
+                                                         {{forms.status_one_hsd}}
+                                                      </div>
+                                                       <hr>
+                                                        <div class="col-md-2 mb-2">
+                                                          <label for="name">Remainig</label>
+                                                         {{forms.rmg_one_hsd}}
+                                                      </div>
+                                                   </div>
+                                              </div>
+                                        </div>
+                                        <hr>
+                                         <div class="card border-secondary mb-3" style="max-width: 100rem;">
+                                          <div class="card-header">Tank Two HSD</div>
+                                              <div class="card-body text-secondary">
+                                                  <div class="form-row">
+                                                        <div class="col-md-2 mb-2">
+                                                          <label for="name">Dip(MM)</label>
+                                                         {{forms.dip_two_hsd}}
+                                                      </div>
+
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">Ltrs</label>
+                                                         {{forms.ltrs_two_hsd}}
+                                                      </div>
+                                                      <hr>
+
+                                                       <div class="col-md-3 mb-2">
+                                                          <label for="name">Tank Previous Stock</label>
+                                                         {{forms.stock_two_hsd}}
+                                                      </div>
+                                                  </div>
+
+                                                   <div class="form-row">
+                                                        <div class="col-md-2 mb-2">
+                                                          <label for="name">Diff-Ltrs</label>
+                                                         {{forms.diff_ltrs_two_hsd}}
+                                                      </div>
+                                                       <hr>
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">Sale</label>
+                                                         {{forms.sale_two_hsd}}
+                                                      </div>
+                                                   </div>
+                                                   <div class="form-row">
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">Tank Two Status</label>
+                                                         {{forms.status_two_hsd}}
+                                                      </div>
+                                                       <hr>
+                                                        <div class="col-md-2 mb-2">
+                                                          <label for="name">Remainig</label>
+                                                         {{forms.rmg_two_hsd}}
+                                                      </div>
+
+                                                   </div>
+                                              </div>
+                                        </div>
+                                       <hr>
+                                        <div class="card border-secondary mb-3" style="max-width: 100rem;">
+                                          <div class="card-header">Tank One PMG</div>
+                                              <div class="card-body text-secondary">
+                                                  <div class="form-row">
+                                                        <div class="col-md-2 mb-2">
+                                                          <label for="name">Dip(MM)</label>
+                                                         {{forms.dip_pmg}}
+                                                      </div>
+
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">Ltrs</label>
+                                                         {{forms.ltrs_pmg}}
+                                                      </div>
+                                                      <hr>
+
+                                                       <div class="col-md-3 mb-2">
+                                                          <label for="name">Tank Previous Stock</label>
+                                                         {{forms.stock_pmg}}
+                                                      </div>
+                                                  </div>
+
+                                                   <div class="form-row">
+                                                        <div class="col-md-2 mb-2">
+                                                          <label for="name">Diff-Ltrs</label>
+                                                         {{forms.diff_pmg}}
+                                                      </div>
+                                                       <hr>
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">Sale</label>
+                                                         {{forms.sale_pmg}}
+                                                      </div>
+                                                   </div>
+                                                   <div class="form-row">
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">Tank One Status</label>
+                                                         {{forms.status_pmg}}
+                                                      </div>
+                                                       <hr>
+                                                        <div class="col-md-2 mb-2">
+                                                          <label for="name">Remainig</label>
+                                                         {{forms.rmg_pmg}}
+                                                      </div>
+                                                   </div>
+                                              </div>
+                                        </div>
+                                       <br>
+                                      <button type="submit" class="btn btn-primary btn-lg btn btn-block">Save</button>
+                                   </form>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+<script>
+        $(document).ready(function(){
+    	// Get value on keyup funtion
+            $("input").keyup(function(){
+
+               stock_one_hsd = parseFloat(myform.stock_one_hsd.value);
+                sale_one_hsd = parseFloat(myform.sale_one_hsd.value);
+               rmg_one_hsd = parseFloat(myform.rmg_one_hsd.value);
+                rmg_one_hsd = stock_one_hsd-sale_one_hsd;
+                myform.rmg_one_hsd.value = rmg_one_hsd ;
+
+                 ltrs_one_hsd = parseFloat(myform.ltrs_one_hsd.value);
+                  diff_ltrs_one_hsd = parseFloat(myform.diff_ltrs_one_hsd.value);
+                   diff_ltrs_one_hsd = ltrs_one_hsd-200;
+                   myform.diff_ltrs_one_hsd.value = diff_ltrs_one_hsd ;
+
+                 status_one_hsd = parseFloat(myform.status_one_hsd.value);
+                status_one_hsd = diff_ltrs_one_hsd-rmg_one_hsd;
+                myform.status_one_hsd.value = status_one_hsd ;
+
+                stock_two_hsd = parseFloat(myform.stock_two_hsd.value);
+                sale_two_hsd = parseFloat(myform.sale_two_hsd.value);
+               rmg_two_hsd = parseFloat(myform.rmg_two_hsd.value);
+                rmg_two_hsd = stock_two_hsd-sale_two_hsd;
+                myform.rmg_two_hsd.value = rmg_two_hsd ;
+
+                 ltrs_two_hsd = parseFloat(myform.ltrs_two_hsd.value);
+                  diff_ltrs_two_hsd = parseFloat(myform.diff_ltrs_two_hsd.value);
+                   diff_ltrs_two_hsd = ltrs_two_hsd-200;
+                   myform.diff_ltrs_two_hsd.value = diff_ltrs_two_hsd ;
+
+                 status_two_hsd = parseFloat(myform.status_two_hsd.value);
+                status_two_hsd = diff_ltrs_two_hsd-rmg_two_hsd;
+                myform.status_two_hsd.value = status_two_hsd ;
+
+
+
+                 stock_pmg = parseFloat(myform.stock_pmg.value);
+                sale_pmg = parseFloat(myform.sale_pmg.value);
+               rmg_pmg = parseFloat(myform.rmg_pmg.value);
+                rmg_pmg = stock_pmg-sale_pmg;
+                myform.rmg_pmg.value = rmg_pmg ;
+
+
+                 ltrs_pmg = parseFloat(myform.ltrs_pmg.value);
+                   diff_pmg = parseFloat(myform.diff_pmg.value);
+                   diff_pmg = ltrs_pmg-240;
+                   myform.diff_pmg.value = diff_pmg ;
+
+                 status_pmg = parseFloat(myform.status_pmg.value);
+                status_pmg = diff_pmg-rmg_pmg;
+                myform.status_pmg.value = status_pmg ;
+
+            });
+    	});
+    </script>
+{% include 'base/footer.html' %}
+

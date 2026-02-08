@@ -1,0 +1,70 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-primary text-white">
+                    <div class="card-body">Expense Details</div>
+
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"> </h5>
+                                   <form action="" method="post" name="myform">
+                                      {% csrf_token %}
+                                        <div class="card border-secondary mb-3" style="max-width: 100rem;">
+                                          <div class="card-header">Particulars</div>
+                                              <div class="card-body text-secondary">
+                                                  <div class="form-row">
+                                                       <div class="col-md-1.5 mb-2">
+                                                          <label for="name">Type</label>
+                                                          {{forms.exp_type}}
+                                                      </div>
+
+                                                      <div class="col-md-3 mb-2">
+                                                          <label for="name">Expense Name</label>
+                                                          {{forms.exp_name}}
+                                                      </div>
+
+                                                      <div class="col-md-3 mb-2">
+                                                          <label for="name">Amount</label>
+                                                         {{forms.amount}}
+                                                      </div>
+
+                                                      <div class="col-md-3 mb-2">
+                                                          <label for="name">Date</label>
+                                                            {{forms.date}}
+                                                      </div>
+
+
+                                                  </div>
+
+                                                  <div class="form-row">
+                                                       <div class="col-md-12 mb-2">
+                                                          <label for="name">Description</label>
+                                                          {{forms.note}}
+                                                      </div>
+                                                  </div>
+                                                          <hr>
+                                              </div>
+                                        </div>
+                                       <br>
+                                      <button type="submit" class="btn btn-primary btn-lg btn btn-block">Save</button>
+                                   </form>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+{% include 'base/footer.html' %}
+

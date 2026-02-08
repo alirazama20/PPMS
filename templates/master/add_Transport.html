@@ -1,0 +1,83 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-primary text-white">
+                    <div class="card-body">Transport Information</div>
+
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"> </h5>
+                                   <form action="" method="post" name="myform">
+                                      {% csrf_token %}
+                                          <div class="form-row">
+                                               <div class="col-md-3 mb-2">
+                                                      <label for="name">Account</label>
+                                                      {{forms.account}}
+                                                </div>
+                                                <div class="col-md-3 mb-2">
+                                                      <label for="name">Vechile No</label>
+                                                      {{forms.name}}
+                                                </div>
+                                          </div>
+                                        <hr>
+                                      <button type="submit" class="btn btn-primary btn-sm btn btn-block">Save Employee</button>
+
+                                       <div class="form-row">
+                                           <div class="col-md-12">
+                                               <hr>
+                                               <h5>Recent Entries</h5>
+                                                <div class="card card-body">
+                                                    <table class="table table-sm">
+                                                        <tr>
+                                                             <th>Account</th>
+                                                            <th>Vechile No</th>
+                                                            <th>Update</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                          {% for i in transports %}
+                                                        <tr>
+                                                            <td>{{i.account}}</td>
+                                                            <td>{{i.name}}</td>
+                                                            <td><a class="btn btn-sm btn-info" href="{% url 'update_transport' i.id %}">Update</a></td>
+                                                            <td><a class="btn btn-sm btn-danger" href="{% url 'delete_transport' i.id %}">Delete</a></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </table>
+                                                </div>
+                                               </div>
+                                       </div>
+
+                                   </form>
+
+
+
+                                <script type="text/javascript">
+	                            function mul(){
+                                    quantity = parseFloat(myform.quantity.value);
+                                    saleprice = parseFloat(myform.saleprice.value);
+                                    disc = parseFloat(myform.disc.value);
+                                    amount = (quantity*saleprice)-disc;
+                                    myform.amount.value = amount ;
+
+	                            }
+                                </script>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+{% include 'base/footer.html' %}
+

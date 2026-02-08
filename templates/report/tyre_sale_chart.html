@@ -1,0 +1,94 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+          <!-- Content Row -->
+             <div class="col-md-7">
+                <h5>CUSTOMERS:</h5>
+                <hr>
+                <div class="card card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                        </tr>
+
+                        {% for i in commission %}
+                            <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.name}}</td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                </div>
+	        </div>
+
+            <br>
+                 <div class="card bg-primary text-white">
+                    <div class="card-body">Tyre Sales Chart Info</div>
+
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"> </h5>
+                               <!-- Content Row -->
+                              <br>
+                                 <div class="row">
+                                     <div class="col-md-12">
+                                           <h5>Account Total Amount Summery</h5>
+                                         <div id="container" style="width: 100%;">
+                                            <canvas id="T-Account-chart" data-url="{% url 'T-Account-chart' %}"></canvas>
+                                         </div>
+                                         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                                         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                                       </div>
+                                 </div>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+   <script>
+      $(function () {
+      var $commissionChart = $("#T-Account-chart");
+      $.ajax({
+        url: $commissionChart.data("url"),
+        success: function (data) {
+
+          var ctx = $commissionChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Total',
+                backgroundColor: '#4E73DF',
+                data: data.data
+              }]
+            },
+            options: {
+              responsive: true,
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Account Total Remaning Amount'
+              }
+            }
+          });
+
+        }
+      });
+
+    });
+</script>
+{% include 'base/footer.html' %}
+

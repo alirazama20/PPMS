@@ -1,0 +1,126 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-primary text-white">
+                    <div class="card-body">Attock Purchase Invoice Information</div>
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"> </h5>
+                              <form action="" method="post" name="myform">
+                                  {% csrf_token %}
+                                  <div class="form-row">
+                                          <div class="col-md-3 mb-2">
+                                                  <label for="name">Dealer Name</label>
+                                                  {{forms.dealer}}
+                                          </div>
+                                      <div class="col-md-3 mb-2">
+                                          <label for="name">Invoice No</label>
+                                          {{forms.invoice_No}}
+                                      </div>
+                                      <div class="col-md-3 mb-2">
+                                          <label for="name">Invoice Date</label>
+                                          {{forms.date}}
+                                      </div>
+                                       <div class="col-md-3 mb-2">
+                                          <label for="name">Receive Date</label>
+                                          {{forms.receive_date}}
+                                      </div>
+                                  </div>
+                                  <br>
+                                  <hr>
+                                  <div class="card border-secondary mb-3" style="max-width: 100rem;">
+                                      <div class="card-header">Particulars</div>
+                                      <div class="card-body text-secondary">
+                                          <div class="form-row">
+                                              <div class="col-md-4 mb-2">
+                                                  <label for="name">Product</label>
+                                                  {{forms.product}}
+                                              </div>
+                                                <hr>
+                                               <div class="col-md-3 mb-1">
+                                                  <label for="name">Total</label>
+                                                  <readonly>{{forms.total}}</readonly>
+                                              </div>
+                                          </div>
+                                          <div class="form-row">
+                                               <div class="col-md-3 mb-1">
+                                                  <label for="name">Quantity</label>
+                                                  {{forms.quantity}}
+                                              </div>
+                                              <hr>
+                                               <div class="col-md-3 mb-1">
+                                                  <label for="name">Paid</label>
+                                                  {{forms.paid}}
+                                              </div>
+                                          </div>
+                                          <div class="form-row">
+                                              <div class="col-md-3 mb-1">
+                                                  <label for="name">Rate</label>
+                                                  {{forms.rate}}
+                                              </div>
+                                              <hr>
+                                                <div class="col-md-3 mb-1">
+                                                  <label for="name">Remaining</label>
+                                                  {{forms.remaining}}
+                                              </div>
+                                          </div>
+
+                                               <hr>
+                                          <div class="form-row">
+                                              <div class="col-md-12 mb-2">
+                                                  <label for="name">Description</label>
+                                                  {{forms.note}}
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <br>
+                                  <button type="submit" class="btn btn-primary btn-sm btn btn-block">Save</button>
+                              </form>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+<script>
+        $(document).ready(function(){
+    	// Get value on keyup funtion
+            $("input").keyup(function(){
+
+               paid = parseFloat(myform.paid.value);
+                total = parseFloat(myform.total.value);
+               remaining = parseFloat(myform.remaining.value);
+
+                remaining = total-paid;
+                myform.remaining.value = remaining ;
+
+                rate = parseFloat(myform.rate.value);
+                quantity = parseFloat(myform.quantity.value);
+
+
+                rate = total/quantity;
+                myform.rate.value = rate ;
+
+            });
+    	});
+    </script>
+<script>
+  $(document).ready(function(){
+  $(".datetimeinput").datepicker({changeYear: true,changeMonth: true, dateFormat: 'yy-mm-dd'});
+
+
+});
+</script>
+{% include 'base/footer.html' %}
+

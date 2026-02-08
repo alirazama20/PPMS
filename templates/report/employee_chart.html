@@ -1,0 +1,77 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+
+          <!-- Content Row -->
+
+            <br>
+                 <div class="card bg-primary text-white">
+                    <div class="card-body">Employee Chart Info</div>
+
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"> </h5>
+
+                               <!-- Content Row -->
+                              <br>
+                                 <div class="row">
+                                     <div class="col-md-12">
+                                        <hr>
+                                           <h5>Employee Salary Summery</h5>
+                                          <div id="container" style="width: 75%;">
+                                            <canvas id="employee-chart" data-url="{% url 'employee-chart' %}"></canvas>
+                                          </div>
+                                          <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                                          <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                                         <hr>
+                                 </div>
+                                 </div>
+
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+  <script>
+            $(function () {
+              var $employeeChart = $("#employee-chart");
+              $.ajax({
+                url: $employeeChart.data("url"),
+                success: function (data) {
+                  var ctx = $employeeChart[0].getContext("2d");
+                  new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                      labels: data.labels,
+                      datasets: [{
+                        label: 'Salary',
+                        backgroundColor: '#4E73DF',
+                        data: data.data
+                      }]
+                    },
+                    options: {
+                      responsive: true,
+                      legend: {
+                        position: 'right',
+                      },
+                      title: {
+                        display: true,
+                        text: 'Employee Bar Chart'
+                      }
+                    }
+                  });
+                }
+              });
+            });
+    </script>
+{% include 'base/footer.html' %}

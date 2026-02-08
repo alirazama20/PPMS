@@ -1,0 +1,1115 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+
+<style>
+  .hello-msg{
+    font-size: 18px;
+    color: #6e707e;
+    margin-right: 20px;
+  }
+  
+  /* AI Dashboard Custom Styles */
+  .ai-badge {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+  }
+  
+  .gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .pump-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    display: inline-block;
+  }
+  
+  .pump-active {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+  
+  .pump-inactive {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+  
+  .prediction-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  
+  .prediction-up {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+  
+  .prediction-down {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+  }
+  
+  .ai-insight-card {
+    border-left: 4px solid #667eea;
+    background: linear-gradient(135deg, #f8f9fc 0%, #e3e6f0 100%);
+  }
+  
+  .dark-card {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    color: white;
+  }
+  
+  .stat-card {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+  }
+  
+  .fuel-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  
+  .badge-hsd {
+    background-color: #dbeafe;
+    color: #1e40af;
+  }
+  
+  .badge-pmg {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+</style>
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+  <!-- Main Content -->
+  <div id="content">
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+          <!-- Topbar Search -->
+          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                  <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </li>
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">3+</span>
+              </a>
+              <!-- Dropdown - Alerts -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                  Alerts Center
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-file-alt text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-success">
+                      <i class="fas fa-donate text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 7, 2019</div>
+                    $290.29 has been deposited into your account!
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-warning">
+                      <i class="fas fa-exclamation-triangle text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 2, 2019</div>
+                    Spending Alert: We've noticed unusually high spending for your account.
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+              </div>
+            </li>
+            <!-- Nav Item - Messages -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i>
+                <!-- Counter - Messages -->
+                <span class="badge badge-danger badge-counter">7</span>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                <h6 class="dropdown-header">
+                  Message Center
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+                    <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div class="font-weight-bold">
+                    <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
+                    <div class="small text-gray-500">Emily Fowler · 58m</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
+                    <div class="status-indicator"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
+                    <div class="small text-gray-500">Jae Chun · 1d</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
+                    <div class="status-indicator bg-warning"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
+                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
+                    <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
+                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+              </div>
+            </li>
+            <div class="topbar-divider d-none d-sm-block"></div>
+          </ul>
+                <span class="hello-msg">Hello, {{request.user}}    ,</span>
+                <span ><a  class="hello-msg" href="{% url 'logout' %}">Logout</a></span>
+                <span ><a  class="hello-msg" href="{% url 'aboutus-page' %}">Purpose مقصد?</a></span>
+        </nav>
+        <!-- End of Topbar -->
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading with AI Badge -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-tachometer-alt mr-2"></i>AI Smart Dashboard 
+            <span class="ai-badge">LIVE</span>
+          </h1>
+          <p class="text-muted small mb-0 mt-1">
+            <i class="fas fa-clock mr-1"></i>Last updated: {% now "h:i A" %}
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-outline-primary mr-2" id="refreshDashboard">
+            <i class="fas fa-sync-alt mr-1"></i>Refresh
+          </button>
+          <button class="btn btn-sm btn-primary shadow-sm" onclick="generateAIReport()">
+            <i class="fas fa-robot mr-1"></i>AI Report
+          </button>
+        </div>
+      </div>
+
+      <!-- AI Insights Banner -->
+      <div class="row mb-4">
+        <div class="col-lg-12">
+          <div class="card shadow border-left-info ai-insight-card">
+            <div class="card-body py-3">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <i class="fas fa-brain fa-2x text-info"></i>
+                </div>
+                <div class="col">
+                  <h6 class="m-0 font-weight-bold text-info">AI Insights Active</h6>
+                  <div class="text-muted small">
+                    Real-time predictions with {{prediction_accuracy}}% accuracy
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="small text-success">
+                    <i class="fas fa-chart-line mr-1"></i>
+                    {{revenue_increase}}% growth today
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Statistics Row -->
+      <div class="row">
+        <!-- Today's Revenue -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2 stat-card">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    <i class="fas fa-rupee-sign mr-1"></i>Today's Revenue
+                  </div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">Rs. {{today_revenue|default:"0"}}</div>
+                  <div class="mt-2">
+                    <span class="prediction-badge prediction-up">
+                      <i class="fas fa-arrow-up mr-1"></i>{{revenue_increase|default:"0"}}%
+                    </span>
+                    <span class="text-muted small ml-2">vs yesterday</span>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="icon-circle bg-primary">
+                    <i class="fas fa-money-bill-wave text-white"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today's Orders -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2 stat-card">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                    <i class="fas fa-shopping-cart mr-1"></i>Today's Orders
+                  </div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{today_orders|default:"0"}}</div>
+                  <div class="mt-2 text-muted small">
+                    Avg: Rs. {{avg_order_value|default:"0"}} per order
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="icon-circle bg-success">
+                    <i class="fas fa-chart-line text-white"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Prediction -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-warning shadow h-100 py-2 stat-card">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                    <i class="fas fa-robot mr-1"></i>AI Prediction (Tomorrow)
+                  </div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">Rs. {{predicted_revenue|default:"0"}}</div>
+                  <div class="mt-2">
+                    <span class="badge bg-warning text-white">
+                      {{prediction_accuracy}}% accurate
+                    </span>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="icon-circle bg-warning">
+                    <i class="fas fa-chart-pie text-white"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Peak Hour -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-info shadow h-100 py-2 stat-card">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                    <i class="fas fa-clock mr-1"></i>Peak Hour Today
+                  </div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{peak_hour|default:"6-7 PM"}}</div>
+                  <div class="mt-2 text-success small">
+                    <i class="fas fa-users mr-1"></i>Expect {{peak_increase}}% more customers
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="icon-circle bg-info">
+                    <i class="fas fa-business-time text-white"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="row">
+        <!-- Sales Trend Chart -->
+        <div class="col-xl-8 col-lg-7 mb-4">
+          <div class="card shadow">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+              <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-chart-line mr-1"></i>Sales Trend (7 Days)
+              </h6>
+              <select class="form-control-sm border-0 bg-light" id="chartRange" onchange="updateChartRange(this.value)">
+                <option value="7">Last 7 Days</option>
+                <option value="30">Last 30 Days</option>
+                <option value="90">Last 3 Months</option>
+              </select>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="salesTrendChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stock Distribution Chart -->
+        <div class="col-xl-4 col-lg-5 mb-4">
+          <div class="card shadow">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-gas-pump mr-1"></i>Stock Distribution
+              </h6>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="stockChart"></canvas>
+              </div>
+              <div class="mt-4 text-center">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="text-primary font-weight-bold">{{today_hsd|default:"0"}} L</div>
+                    <div class="text-muted small">HSD Today</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="text-success font-weight-bold">{{today_pmg|default:"0"}} L</div>
+                    <div class="text-muted small">PMG Today</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="text-info font-weight-bold">{{remaining_stock|default:"0"}} L</div>
+                    <div class="text-muted small">Total Stock</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Status & Quick Stats Row -->
+      <div class="row">
+        <!-- Live Dashboard -->
+        <div class="col-lg-8 mb-4">
+          <div class="card shadow">
+            <div class="card-header py-3 gradient-primary">
+              <h6 class="m-0 font-weight-bold text-white">
+                <i class="fas fa-broadcast-tower mr-1"></i>Live Dashboard
+              </h6>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <!-- Today's Summary -->
+                <div class="col-md-6 mb-4">
+                  <div class="card border-0 bg-light">
+                    <div class="card-body">
+                      <h6 class="font-weight-bold text-primary mb-3">
+                        <i class="fas fa-chart-bar mr-1"></i>Today's Summary
+                      </h6>
+                      <div class="row">
+                        <div class="col-6 mb-3">
+                          <div class="text-muted small">Total Sales</div>
+                          <div class="h5 font-weight-bold">{{today_total_sales|default:"0"}} L</div>
+                        </div>
+                        <div class="col-6 mb-3">
+                          <div class="text-muted small">Orders</div>
+                          <div class="h5 font-weight-bold">{{today_orders|default:"0"}}</div>
+                        </div>
+                        <div class="col-6">
+                          <div class="text-muted small">Customers</div>
+                          <div class="h5 font-weight-bold">{{customer_count|default:"0"}}</div>
+                        </div>
+                        <div class="col-6">
+                          <div class="text-muted small">Expenses</div>
+                          <div class="h5 font-weight-bold">Rs. {{today_expense|default:"0"}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Stock Status -->
+                <div class="col-md-6 mb-4">
+                  <div class="card border-0 bg-light">
+                    <div class="card-body">
+                      <h6 class="font-weight-bold text-primary mb-3">
+                        <i class="fas fa-boxes mr-1"></i>Stock Status
+                      </h6>
+                      <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                          <span class="text-muted">HSD Stock</span>
+                          <span class="font-weight-bold">
+                            {% for stock in qs_stockregister %}
+                              {{stock.rmg_one_hsd|default:"0"|add:stock.rmg_two_hsd|default:"0"}} L
+                            {% empty %}
+                              0 L
+                            {% endfor %}
+                          </span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                          <div class="progress-bar bg-primary" style="width: 70%"></div>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                          <span class="text-muted">PMG Stock</span>
+                          <span class="font-weight-bold">
+                            {% for stock in qs_stockregister %}
+                              {{stock.rmg_pmg|default:"0"}} L
+                            {% empty %}
+                              0 L
+                            {% endfor %}
+                          </span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                          <div class="progress-bar bg-success" style="width: 85%"></div>
+                        </div>
+                      </div>
+                      <div class="alert alert-warning small mb-0">
+                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                        Stock for {{stock_days_left|default:"7"}} days
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="col-12">
+                  <h6 class="font-weight-bold text-primary mb-3">
+                    <i class="fas fa-history mr-1"></i>Recent Transactions
+                  </h6>
+                  <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                      <thead>
+                        <tr>
+                          <th>Time</th>
+                          <th>Customer</th>
+                          <th>Fuel</th>
+                          <th>Qty</th>
+                          <th>Amount</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for order in recent_orders|slice:":5" %}
+                        <tr>
+                          <td>{{order.time}}</td>
+                          <td>{{order.customer|truncatechars:15}}</td>
+                          <td>
+                            <span class="fuel-badge badge-{{order.fuel_type_color}}">
+                              {{order.fuel_type}}
+                            </span>
+                          </td>
+                          <td>{{order.quantity}} L</td>
+                          <td>Rs. {{order.amount}}</td>
+                          <td>
+                            <span class="badge badge-{{order.status_color}}">
+                              {{order.status}}
+                            </span>
+                          </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="6" class="text-center text-muted py-3">
+                            No recent transactions
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Recommendations -->
+        <div class="col-lg-4 mb-4">
+          <div class="card shadow">
+            <div class="card-header py-3 dark-card">
+              <h6 class="m-0 font-weight-bold text-white">
+                <i class="fas fa-lightbulb mr-1"></i>AI Recommendations
+              </h6>
+            </div>
+            <div class="card-body">
+              {% for rec in ai_recommendations %}
+              <div class="card mb-3 border-left-{{rec.color}}">
+                <div class="card-body py-3">
+                  <div class="d-flex align-items-start">
+                    <div class="mr-3">
+                      <div class="icon-circle bg-{{rec.color}}">
+                        <i class="fas fa-{{rec.icon}} text-white"></i>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h6 class="font-weight-bold text-{{rec.color}} mb-1">{{rec.title}}</h6>
+                      <p class="mb-0 text-muted small">{{rec.description}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <div class="text-center py-4">
+                <i class="fas fa-robot fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No recommendations at this time</p>
+              </div>
+              {% endfor %}
+
+              <!-- Restock Alert -->
+              <div class="card border-left-danger mt-4">
+                <div class="card-body py-3">
+                  <div class="d-flex align-items-center">
+                    <div class="mr-3">
+                      <i class="fas fa-exclamation-circle fa-2x text-danger"></i>
+                    </div>
+                    <div>
+                      <h6 class="font-weight-bold text-danger mb-1">Restock Alert</h6>
+                      <p class="mb-0 text-muted small">{{restock_message}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Actions -->
+              <div class="mt-4">
+                <h6 class="font-weight-bold text-primary mb-3">Quick Actions</h6>
+                <div class="row">
+                  <div class="col-6 mb-2">
+                    <a href="{% url 'add-salebill-page' %}" class="btn btn-sm btn-primary btn-block">
+                      <i class="fas fa-plus mr-1"></i>New Sale
+                    </a>
+                  </div>
+                  <div class="col-6 mb-2">
+                    <a href="{% url 'add-purchase-page' %}" class="btn btn-sm btn-success btn-block">
+                      <i class="fas fa-truck mr-1"></i>New Purchase
+                    </a>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-sm btn-info btn-block" onclick="showStockReport()">
+                      <i class="fas fa-chart-pie mr-1"></i>Stock Report
+                    </button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-sm btn-warning btn-block" onclick="showCustomerAnalysis()">
+                      <i class="fas fa-users mr-1"></i>Customers
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Your Existing Content (Updated Layout) -->
+      <div class="row mt-4">
+        <!-- Recent Purchases -->
+        <div class="col-lg-6 mb-4">
+          <div class="card shadow">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+              <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-shopping-cart mr-1"></i>Recent Purchases
+                <span class="badge badge-primary ml-2">{{total_pur_invoices}}</span>
+              </h6>
+              <a href="{% url 'add-purchase-page' %}" class="btn btn-sm btn-primary">
+                <i class="fas fa-plus mr-1"></i>New
+              </a>
+            </div>
+            <div class="card-body">
+              {% for instance in queryset_pur %}
+              <div class="border-bottom pb-3 mb-3">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <div>
+                    <h6 class="font-weight-bold mb-1">{{instance.dealer}}</h6>
+                    <div class="text-muted small">
+                      <i class="far fa-calendar mr-1"></i>{{instance.date|date:"d M Y"}}
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-weight-bold text-primary">Rs. {{instance.total|floatformat:2}}</div>
+                    <div class="text-success small">Paid: Rs. {{instance.paid|floatformat:2}}</div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <span class="badge badge-info">{{instance.product}}</span>
+                  </div>
+                  <div>
+                    <span class="badge badge-warning">Due: Rs. {{instance.remaining|floatformat:2}}</span>
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <div class="text-center py-4 text-muted">
+                <i class="fas fa-box-open fa-2x mb-3"></i>
+                <p>No purchase orders found</p>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Sales -->
+        <div class="col-lg-6 mb-4">
+          <div class="card shadow">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+              <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-file-invoice-dollar mr-1"></i>Recent Sales
+                <span class="badge badge-primary ml-2">{{total_invoices}}</span>
+              </h6>
+              <a href="{% url 'add-salebill-page' %}" class="btn btn-sm btn-primary">
+                <i class="fas fa-plus mr-1"></i>New
+              </a>
+            </div>
+            <div class="card-body">
+              {% for instance in queryset %}
+              <div class="border-bottom pb-3 mb-3">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <div>
+                    <h6 class="font-weight-bold mb-1">{{instance.account}}</h6>
+                    <div class="text-muted small">
+                      <i class="far fa-calendar mr-1"></i>{{instance.date|date:"d M Y"}}
+                      <i class="fas fa-car ml-2 mr-1"></i>{{instance.vechile}}
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-weight-bold text-primary">Rs. {{instance.totalAmount|floatformat:2}}</div>
+                    <div class="text-success small">Paid: Rs. {{instance.paidAmount|floatformat:2}}</div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <span class="badge {% if 'diesel' in instance.product|lower %}badge-hsd{% else %}badge-pmg{% endif %}">
+                      {{instance.product}}
+                    </span>
+                  </div>
+                  <div>
+                    <span class="badge {% if instance.remainingAmount > 0 %}badge-danger{% else %}badge-success{% endif %}">
+                      {% if instance.remainingAmount > 0 %}
+                      Due: Rs. {{instance.remainingAmount|floatformat:2}}
+                      {% else %}
+                      Fully Paid
+                      {% endif %}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <div class="text-center py-4 text-muted">
+                <i class="fas fa-receipt fa-2x mb-3"></i>
+                <p>No sales orders found</p>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Quick Stats Footer -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="card shadow border-0 bg-gradient-light">
+            <div class="card-body py-3">
+              <div class="row text-center">
+                <div class="col-md-3 border-right">
+                  <div class="text-muted small">Today's HSD</div>
+                  <div class="h5 font-weight-bold text-primary">
+                    {% for meter in qs_meterreading %}
+                      {{meter.total_diesel|default:"0"}} L
+                    {% empty %}
+                      0 L
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-md-3 border-right">
+                  <div class="text-muted small">Today's PMG</div>
+                  <div class="h5 font-weight-bold text-success">
+                    {% for meter in qs_meterreading %}
+                      {{meter.total_petrol|default:"0"}} L
+                    {% empty %}
+                      0 L
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-md-3 border-right">
+                  <div class="text-muted small">Today's Expense</div>
+                  <div class="h5 font-weight-bold text-danger">
+                    {% for expense in qs_expenses %}
+                      {% if forloop.first %}
+                        Rs. {{expense.amount|default:"0"}}
+                      {% endif %}
+                    {% empty %}
+                      Rs. 0
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="text-muted small">Active Customers</div>
+                  <div class="h5 font-weight-bold text-info">{{total_customers}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Main Content -->
+</div>
+</div>
+<!-- JavaScript for Charts and Interactivity -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize Charts
+  initSalesChart();
+  initStockChart();
+  
+  // Setup event listeners
+  setupEventListeners();
+  
+  // Auto-refresh every 60 seconds
+  setInterval(refreshDashboard, 60000);
+});
+
+function initSalesChart() {
+  const ctx = document.getElementById('salesTrendChart').getContext('2d');
+  
+  // Parse data from Django template
+  const labels = JSON.parse('{{ sales_labels|escapejs }}');
+  const hsdData = JSON.parse('{{ hsd_sales|escapejs }}');
+  const pmgData = JSON.parse('{{ pmg_sales|escapejs }}');
+  
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'HSD Sales',
+          data: hsdData,
+          borderColor: '#4e73df',
+          backgroundColor: 'rgba(78, 115, 223, 0.05)',
+          tension: 0.4,
+          fill: true,
+          borderWidth: 2
+        },
+        {
+          label: 'PMG Sales',
+          data: pmgData,
+          borderColor: '#1cc88a',
+          backgroundColor: 'rgba(28, 200, 138, 0.05)',
+          tension: 0.4,
+          fill: true,
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          callbacks: {
+            label: function(context) {
+              return `${context.dataset.label}: ${context.parsed.y}L`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return value + 'L';
+            }
+          },
+          title: {
+            display: true,
+            text: 'Liters'
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          }
+        }
+      },
+      interaction: {
+        intersect: false,
+        mode: 'nearest'
+      }
+    }
+  });
+  
+  // Store chart reference for updates
+  window.salesChart = chart;
+}
+
+function initStockChart() {
+  const ctx = document.getElementById('stockChart').getContext('2d');
+  
+  // Parse data from Django template
+  const stockData = JSON.parse('{{ stock_data|escapejs }}');
+  
+  const chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['HSD', 'PMG', 'Other'],
+      datasets: [{
+        data: stockData,
+        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+        borderWidth: 3,
+        borderColor: '#ffffff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 20,
+            usePointStyle: true
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return `${context.label}: ${context.parsed}%`;
+            }
+          }
+        }
+      },
+      cutout: '75%'
+    }
+  });
+  
+  // Store chart reference
+  window.stockChart = chart;
+}
+
+function setupEventListeners() {
+  // Refresh button
+  const refreshBtn = document.getElementById('refreshDashboard');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', refreshDashboard);
+  }
+  
+  // Chart range selector
+  const chartRange = document.getElementById('chartRange');
+  if (chartRange) {
+    chartRange.addEventListener('change', function() {
+      updateChartRange(this.value);
+    });
+  }
+}
+
+function refreshDashboard() {
+  const btn = document.getElementById('refreshDashboard');
+  if (btn) {
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Refreshing...';
+    btn.disabled = true;
+  }
+  
+  // Show loading state
+  showLoading();
+  
+  // Reload page after 1 second
+  setTimeout(() => {
+    location.reload();
+  }, 1000);
+}
+
+function updateChartRange(days) {
+  // Show loading
+  showLoading();
+  
+  // Fetch new chart data via AJAX
+  fetch(`/api/sales-data/?days=${days}`)
+    .then(response => response.json())
+    .then(data => {
+      // Update chart with new data
+      updateChartData(data);
+      hideLoading();
+    })
+    .catch(error => {
+      console.error('Error updating chart:', error);
+      hideLoading();
+    });
+}
+
+function updateChartData(data) {
+  if (window.salesChart) {
+    window.salesChart.data.labels = data.labels;
+    window.salesChart.data.datasets[0].data = data.hsd;
+    window.salesChart.data.datasets[1].data = data.pmg;
+    window.salesChart.update();
+  }
+}
+
+function generateAIReport() {
+  const btn = event?.target || document.querySelector('.ai-report-btn');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Generating...';
+  btn.disabled = true;
+  
+  // Simulate report generation
+  setTimeout(() => {
+    alert('AI Report generated successfully!');
+    btn.innerHTML = '<i class="fas fa-robot mr-1"></i>AI Report';
+    btn.disabled = false;
+  }, 2000);
+}
+
+function showLoading() {
+  // Add loading overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'loadingOverlay';
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.8);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+  overlay.innerHTML = `
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <p class="mt-2 text-primary">Loading AI Insights...</p>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+function hideLoading() {
+  const overlay = document.getElementById('loadingOverlay');
+  if (overlay) {
+    overlay.remove();
+  }
+}
+
+function showStockReport() {
+  alert('Stock Report feature coming soon!');
+}
+
+function showCustomerAnalysis() {
+  alert('Customer Analysis feature coming soon!');
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  // Ctrl + R to refresh
+  if (e.ctrlKey && e.key === 'r') {
+    e.preventDefault();
+    refreshDashboard();
+  }
+  
+  // Ctrl + P for purchase
+  if (e.ctrlKey && e.key === 'p') {
+    e.preventDefault();
+    window.location.href = "{% url 'add-purchase-page' %}";
+  }
+  
+  // Ctrl + S for sale
+  if (e.ctrlKey && e.key === 's') {
+    e.preventDefault();
+    window.location.href = "{% url 'add-salebill-page' %}";
+  }
+});
+</script>
+
+{% include 'base/script.html' %}
+{% include 'base/footer.html' %}

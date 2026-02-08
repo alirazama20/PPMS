@@ -1,0 +1,168 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fuel Sale Report</title>
+
+<!-- needed for dataTales-->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+</head>
+<body>
+<center>
+<h1 class="card-title">Yousafzai Filling Station Fuel Sale Report</h1> <h6>Address : Thakara Mansehra<br> Phone # 0997-543119<br>Mbl # 0311-1111161</h6>
+</center>
+ <h3 class="card-title"><a href="/">Click For Dashboard</a> </h3>
+      <div class="card card-body">
+          <form method="get">
+              {{myFilter.form}}
+              <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+      </div>
+</div>
+<table id="table_id" class="display cell-border compact stripe">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>S.No</th>
+            <th>Acc.</th>
+            <th>Veh-No</th>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Total</th>
+            <th>Paid</th>
+            <th>Rmg</th>
+        </tr>
+    </thead>
+    <tbody>
+     {% for i in salebills %}
+        <tr>
+            <td>{{i.date | date}}</td>
+            <td>{{i.invoiceNo}}</td>
+            <td>{{i.account}}</td>
+            <td>{{i.vechile}}</td>
+            <td>{{i.item_name}}</td>
+            <td>{{i.quantity|floatformat:1}}</td>
+            <td>{{i.saleprice|floatformat:2}}</td>
+            <td>{{i.totalAmount|floatformat:2}}</td>
+            <td>{{i.paidAmount|floatformat:2}}</td>
+            <td>{{i.remainingAmount|floatformat:2}}</td>
+        </tr>
+     {% endfor %}
+    </tbody>
+    <tbody>
+        <tr>
+            <td colspan="5" style="font-weight: bold;">Total</td>
+            <td id="tolqty" style="font-weight: bold;"></td>
+            <td id="" style="font-weight: bold;"></td>
+            <td id="tolamount" style="font-weight: bold;"></td>
+            <td id="tolpaid" style="font-weight: bold;"></td>
+        </tr>
+    </tbody>
+    <tbody>
+        <tr>
+            <td colspan="9" style="font-weight: bold;">Balance</td>
+            <td id="tolrmg" style="font-weight: bold;"></td>
+        </tr>
+     <tbody>
+</table>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.js"></script>
+
+<!-- needed to use moment.js for our date sorting-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+
+<!-- the second way to do it to integrate our buttons for export-->
+<script>
+    $(document).ready( function () {
+
+    $.fn.dataTable.moment( 'MMM D, YYYY' );
+    $.fn.dataTable.moment( 'D-MMM-YY' );
+    $('#table_id').DataTable({
+
+    dom: 'B<"clear">lfrtip',
+    buttons: {
+        name: 'primary',
+        buttons: [ 'copy', 'csv', 'excel', 'pdf' ]
+
+        }}
+    );
+} );
+</script>
+ <script>
+                         $(document).ready(function()
+                                  {
+                                    var quantity;
+                                    var totalquantity=0;
+                                    $('td:nth-child(6)').each(function()
+                                    {
+                                      quantity=$(this).html();
+                                      totalquantity+=parseFloat(quantity);
+                                      $('#tolqty').text(totalquantity);
+                                       $('#tolqtty').text(totalquantity);
+                                    });
+                                  });
+
+
+                              $(document).ready(function()
+                                  {
+                                    var saleprice;
+                                    var totalsaleprice=0;
+                                    $('td:nth-child(7)').each(function()
+                                    {
+                                      saleprice=$(this).html();
+                                      totalsaleprice+=parseFloat(saleprice);
+                                      $('#tolrate').text(totalsaleprice);
+                                       $('#tolrates').text(totalsaleprice);
+
+                                    });
+                                  });
+
+                                   $(document).ready(function()
+                                  {
+                                    var totalAmount;
+                                    var totaltotalAmount=0;
+                                    $('td:nth-child(8)').each(function()
+                                    {
+                                      totalAmount=$(this).html();
+                                      totaltotalAmount+=parseFloat(totalAmount);
+                                      $('#tolamount').text(totaltotalAmount);
+                                       $('#tolamt').text(totaltotalAmount);
+
+                                    });
+                                  });
+
+                                    $(document).ready(function()
+                                  {
+                                    var paidAmount;
+                                    var totalpaidAmount=0;
+                                    $('td:nth-child(9)').each(function()
+                                    {
+                                      paidAmount=$(this).html();
+                                      totalpaidAmount+=parseFloat(paidAmount);
+                                      $('#tolpaid').text(totalpaidAmount);
+                                        $('#tolpaids').text(totalpaidAmount);
+
+                                    });
+                                  });
+
+                                   $(document).ready(function()
+                                  {
+                                    var remainingAmount;
+                                    var totalremainingAmount=0;
+                                    $('td:nth-child(10)').each(function()
+                                    {
+                                      remainingAmount=$(this).html();
+                                      totalremainingAmount+=parseFloat(remainingAmount);
+                                      $('#tolrmg').text(totalremainingAmount);
+                                       $('#tolrmgs').text(totalremainingAmount);
+                                    });
+                                  });
+</script>
+</body>
+</html>

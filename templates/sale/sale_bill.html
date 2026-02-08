@@ -1,0 +1,199 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+ <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Static Example</title>
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+    <!-- Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+  </head>
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-Developer's Academy for any info call us on 0313-2826694 or visit on Youtube AR Developers Academy</marquee>
+            <marquee behavior="" direction="left">Welcome To AR-Developer's Academy for any info call us on 0313-2826694 or visit on Youtube AR Developers Academy</marquee>
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-primary text-white">
+                    <div class="card-body">Sales Invoice Information </div>
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"></h5>
+                                   <form action="" method="post" name="myform"  id="SaleForm" data-vechile-url={% url 'load-vechile' %}>
+                                      {% csrf_token %}
+                                        <div class="card border-secondary mb-3" style="max-width: 100rem;">
+                                          <div class="card-header">Particulars</div>
+                                              <div class="card-body text-secondary">
+
+
+                                                  <div class="form-row">
+                                                          <div class="col-md-3 mb-2">
+                                                              <label for="name">Slip Date</label>
+                                                              <div class="input-group date" id="date" data-target-input="nearest">
+                                                                      {{forms.date}}
+                                                                  <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
+                                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+
+                                                       <div class="col-md-3 mb-2">
+                                                              <label for="name">Created Date</label>
+                                                              <div class="input-group date" id="created_date" data-target-input="nearest">
+                                                                      {{forms.created_date}}
+                                                                  <div class="input-group-append" data-target="#created_date" data-toggle="datetimepicker">
+                                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+
+                                                       <div class="col-md-2 mb-1">
+                                                          <label for="name">invoice No</label>
+                                                          {{forms.invoiceNo}}
+                                                      </div>
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">invoice Type</label>
+                                                          {{forms.invoiceType}}
+                                                      </div>
+                                                       <div class="col-md-2 mb-2">
+                                                          <label for="name">Catagary</label>
+                                                          {{forms.catagery}}
+                                                      </div>
+                                                  </div>
+                                                  <div class="form-row">
+                                                       <div class="col-md-7 mb-1" >
+                                                          <label for="name">Name</label>
+                                                         {{forms.name}}
+                                                      </div>
+
+                                                      <div class="col-md-5 mb-1">
+                                                          <label for="name">Phone</label>
+                                                             {{forms.phone}}
+                                                      </div>
+
+                                                  </div>
+                                                  <hr>
+                                                  <div class="form-row">
+                                                      <div class="col-md-4 mb-2">
+                                                          <label for="name">Account</label>
+                                                          {{forms.account}}
+                                                      </div>
+                                                      <div class="col-md-4 mb-1">
+                                                          <label for="name">Veh-No</label>
+                                                         {{forms.vechile}}
+                                                      </div>
+                                                       <div class="col-md-4 mb-2">
+                                                          <label for="name">ITem</label>
+                                                          {{forms.item_name}}
+                                                      </div>
+
+                                                  </div>
+
+                                                  <div class="form-row">
+                                                      <div class="col-md-1 mb-1">
+                                                          <label for="name">Qty</label>
+                                                          {{forms.quantity}}
+                                                      </div>
+                                                       <div class="col-md-2 mb-1">
+                                                          <label for="name">Purchse</label>
+                                                         {{forms.purchase}}
+                                                      </div>
+                                                      <div class="col-md-2 mb-1">
+                                                          <label for="name">Sale</label>
+                                                         {{forms.saleprice}}
+                                                      </div>
+                                                      <hr>
+                                                      <br>
+
+                                                      <div class="col-md-2 mb-1">
+                                                          <label for="name">Total</label>
+                                                             {{forms.totalAmount}}
+                                                      </div>
+                                                       <div class="col-md-2 mb-1">
+                                                          <label for="name">Paid</label>
+                                                             {{forms.paidAmount}}
+                                                      </div>
+                                                       <div class="col-md-2 mb-1">
+                                                          <label for="name">Remaining</label>
+                                                             {{forms.remainingAmount}}
+                                                      </div>
+                                                  </div>
+                                                  <hr>
+
+
+
+                                                   <div class="form-row">
+                                                       <div class="col-md-10 mb-2">
+                                                              <label for="name">Description</label>
+                                                                {{forms.note}}
+                                                      </div>
+                                                        <div class="col-md-2 mb-1">
+                                                          <label for="name">Profit</label>
+                                                             {{forms.profit}}
+                                                      </div>
+                                                   </div>
+
+
+                                              </div>
+                                        </div>
+                                       <br>
+                                      <button type="submit" class="btn btn-primary btn-lg btn btn-block">Save</button>
+                                   </form>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+  <script>
+      $(function () {
+        $("#date").datetimepicker();
+      });
+       $(function () {
+        $("#created_date").datetimepicker();
+      });
+    </script>
+<script>
+        $(document).ready(function(){
+    	// Get value on keyup funtion
+            $("input").keyup(function(){
+
+               quantity = parseFloat(myform.quantity.value);
+                purchase = parseFloat(myform.purchase.value);
+               saleprice = parseFloat(myform.saleprice.value);
+               paidAmount = parseFloat(myform.paidAmount.value);
+                profit = parseFloat(myform.profit.value);
+               remainingAmount = parseFloat(myform.remainingAmount.value);
+
+                totalAmount = (quantity*saleprice);
+                myform.totalAmount.value = totalAmount ;
+
+                remainingAmount = totalAmount-paidAmount;
+                myform.remainingAmount.value = remainingAmount ;
+
+                 profit = (saleprice-purchase)*quantity;
+                 myform.profit.value = profit ;
+            });
+    	});
+    </script>
+{% include 'base/footer.html' %}
+

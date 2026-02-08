@@ -1,0 +1,36 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+
+          <!-- Content Row -->
+            <br>
+              <br>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card card-body">
+
+
+								<p>Are you sure you want to delete "{{item}}"?</p>
+
+								<form action="{% url 'delete_tyre_bill' item.id %}" method="POST">
+
+									{% csrf_token %}
+									<a class="btn btn-warning" href="{% url 'search-tyresalebill-page' %}">Cancel</a>
+
+									<input class="btn btn-danger" type="submit" name="Confirm">
+								</form>
+							</div>
+						</div>
+					</div>
+
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+{% include 'base/footer.html' %}

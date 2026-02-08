@@ -1,0 +1,150 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+<style>
+    .success{
+     list-style: none;
+     background-color: #2e6da4;
+     color: white;
+     box-shadow: 12px 12px 12px #e61c66;
+     text-align: center;
+ }
+</style>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+              {% if messages %}
+                    <ul class="messages">
+                           {% for message in messages %}
+                                 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                           {% endfor %}
+                   </ul>
+              {% endif %}
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-secondary text-white">
+                    <div class="card-body">Search & Manage Meter-Reading Details</div>
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"> </h5>
+                              <form class="needs-validation" novalidate>
+                                   <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card card-body">
+
+                                                <form method="get">
+                                                    {{myFilter.form}}
+                                                <button class="btn btn-primary" type="submit">Search</button>
+                                              </form>
+
+                                            </div>
+                                        </div>
+                                         <!-- Status -->
+                                              <div class="col">
+                                                <div class="col-md">
+                                                    <div class="card text-center text-white mb-3" id="total-orders">
+                                                        <div class="card-header">
+                                                            <h5 class="card-title">Total Summary of Selected Data</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                                 <table class="table table-sm">
+                                                                     <tr>
+                                                                         <th>Total Diesel Liters</th>
+                                                                        <th>Total Petrol Liters</th>
+                                                                     </tr>
+                                                                <tr>
+                                                                      <td id="toldisel" style="font-weight: bold;"></td>
+                                                                     <td id="tolpetrol" style="font-weight: bold;"></td>
+
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                              <!-- End Status -->
+
+                                    </div>
+
+                                  <br>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <h5>100 Recent Transport Details</h5>
+                                            <div class="card card-body">
+                                                <a class="btn btn-primary  btn-sm btn-block" href="{% url 'add-meter-reading-page' %}">Add New Bill</a>
+                                                <table class="table table-sm">
+                                                    <tr>
+                                                         <th>Update</th>
+                                                        <th>Delete</th>
+                                                        <th>Date</th>
+                                                        <th>Tol-Diesel Ltr</th>
+                                                        <th>Tol-Petrol Ltr</th>
+
+
+                                                    </tr>
+                                                    {% for i in maetereading %}
+                                                    <tr>
+                                                         <td><a class="btn btn-sm btn-info" href="{% url 'update_meter_bill' i.id %}">Update</a></td>
+                                                        <td><a class="btn btn-sm btn-danger" href="{% url 'delete_meter_bill' i.id %}">Delete</a></td>
+                                                        <td>{{i.date | date}}</td>
+                                                        <td>{{i.total_diesel}}</td>
+                                                        <td>{{i.total_petrol}}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    <tr>
+                                                         <td colspan="3" style="font-weight: bold;">Total Balance</td>
+                                                        <td id="toldes" style="font-weight: bold;"></td>
+                                                        <td id="tolpet" style="font-weight: bold;"></td>
+                                                    </tr>
+                                                </table>
+                                                {% if maetereading.has_previous %}
+                                                <a href="?page=1">First</a>
+                                                <a href="?page={{maetereading.previous_page_number}}">Previous</a>
+                                                {% endif %}
+                                                {{maetereading.number}}<b>/</b>{{maetereading.paginator.num_pages}}
+                                                {% if purchasebills.has_next %}
+                                                <a href="?page={{maetereading.next_page_number}}">Next</a>
+                                                <a href="?page={{maetereading.paginator.num_pages}}">Last</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                              </form>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+      <script>
+                                  $(document).ready(function()
+                                  {
+                                    var total_diesel;
+                                    var totaltotal_diesel=0;
+                                    $('td:nth-child(4)').each(function()
+                                    {
+                                      total_diesel=$(this).html();
+                                      totaltotal_diesel+=parseInt(total_diesel);
+                                      $('#toldes').text(totaltotal_diesel);
+                                       $('#toldisel').text(totaltotal_diesel);
+                                    });
+                                  });
+
+                                   $(document).ready(function()
+                                  {
+                                    var total_petrol;
+                                    var totaltotal_petrol=0;
+                                    $('td:nth-child(5)').each(function()
+                                    {
+                                      total_petrol=$(this).html();
+                                      totaltotal_petrol+=parseInt(total_petrol);
+                                      $('#tolpet').text(totaltotal_petrol);
+                                       $('#tolpetrol').text(totaltotal_petrol);
+                                    });
+                                  });
+                        </script>
+{% include 'base/footer.html' %}
+

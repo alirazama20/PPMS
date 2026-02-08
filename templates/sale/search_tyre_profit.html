@@ -1,0 +1,183 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-secondary text-white">
+                    <div class="card-body"> Search Tyre Profit</div>
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"><a href="/">Click For Dashboard</a> </h5>
+                              <form class="needs-validation" novalidate>
+                                   <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="card card-body">
+                                                <form method="get">
+                                                    {{myFilter.form}}
+                                                <button class="btn btn-primary" type="submit">Search</button>
+                                              </form>
+                                            </div>
+                                        </div>
+                                         <!-- Status -->
+                                       <div class="col">
+                                                <div class="col-md">
+                                                    <div class="card text-center text-white mb-3" id="total-orders">
+                                                        <div class="card-header">
+                                                           <h3 class="card-title"></h3>
+                                                             <h1 class="card-title">Usman's Tyre Shop</h1> <h6>Address : Thakara Mansehra<br> Phone # 0997-543119<br>Mbl # 0311-1111161</h6>
+                                                            <hr>
+                                                            <h5 class="card-title">Total Summary of Selected Data</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                                 <table class="table table-sm">
+                                                                     <tr>
+                                                                         <th>Qty</th>
+                                                                        <th>Profit</th>
+                                                                     </tr>
+                                                                <tr>
+                                                                    <td id="tolqtty" style="font-weight: bold;"></td>
+                                                                     <td id="tprofit" style="font-weight: bold;"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                       <!-- End Status -->
+                                    </div>
+                                  <br>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <h5>Recent Sale Invoices</h5>
+                                            <div class="card card-body">
+                                                <a class="btn btn-primary  btn-sm btn-block" href="{% url 'add-tyresalebill-page' %}">Add New Bill</a>
+                                                <table class="table table-sm">
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>S.No</th>
+                                                        <th>Acc.</th>
+                                                         <th>Veh-No</th>
+                                                        <th>Product</th>
+                                                        <th>Pur-Rate</th>
+                                                         <th>Total</th>
+                                                        <th>Qty</th>
+                                                        <th>Profit</th>
+                                                    </tr>
+                                                    {% for i in tyresalebills %}
+                                                    <tr>
+                                                         <td>{{i.date | date}}</td>
+                                                          <td>{{i.invoiceNo}}</td>
+                                                         <td>{{i.account}}</td>
+                                                        <td>{{i.vechile}}</td>
+                                                        <td>{{i.item_name}}</td>
+                                                          <td>{{i.purchase|floatformat:2}}</td>
+                                                        <td>{{i.totalAmount|floatformat:2}}</td>
+                                                         <td>{{i.quantity|floatformat:1}}</td>
+                                                          <td>{{i.profit|floatformat:2}}</td>
+                                                          </tr>
+                                                    {% endfor %}
+                                                    <tr>
+                                                         <td colspan="7" style="font-weight: bold;">Total</td>
+                                                         <td id="tolqty" style="font-weight: bold;"></td>
+                                                        <td id="tolprofit" style="font-weight: bold;"></td>
+                                                    </tr>
+                                                </table>
+                                                {% if salebills.has_previous %}
+                                                <a href="?page=1">First</a>
+                                                <a href="?page={{salebills.previous_page_number}}">Previous</a>
+                                                {% endif %}
+                                                {{salebills.number}}<b>/</b>{{salebills.paginator.num_pages}}
+                                                {% if salebills.has_next %}
+                                                <a href="?page={{salebills.next_page_number}}">Next</a>
+                                                <a href="?page={{salebills.paginator.num_pages}}">Last</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                              </form>
+                          </div>
+
+                         <hr>
+
+                                 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                                 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+                         <hr>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+                        <script>
+                         $(document).ready(function()
+                                  {
+                                    var quantity;
+                                    var totalquantity=0;
+                                    $('td:nth-child(8)').each(function()
+                                    {
+                                      quantity=$(this).html();
+                                      totalquantity+=parseFloat(quantity);
+                                      $('#tolqty').text(totalquantity);
+                                       $('#tolqtty').text(totalquantity);
+                                    });
+                                  });
+
+
+                          $(document).ready(function()
+                                  {
+                                    var profit;
+                                    var totalprofit=0;
+                                    $('td:nth-child(9)').each(function()
+                                    {
+                                      profit=$(this).html();
+                                      totalprofit+=parseFloat(profit);
+                                      $('#tolprofit').text(totalprofit);
+                                         $('#tprofit').text(totalprofit);
+
+                                    });
+                                  });
+
+
+     $(function () {
+      var $commissionChart = $("#Account-chart");
+      $.ajax({
+        url: $commissionChart.data("url"),
+        success: function (data) {
+
+          var ctx = $commissionChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Total',
+                backgroundColor: '#4E73DF',
+                data: data.data
+              }]
+            },
+            options: {
+              responsive: true,
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Account Bar Chart'
+              }
+            }
+          });
+
+        }
+      });
+
+    });
+                        </script>
+{% include 'base/footer.html' %}
+

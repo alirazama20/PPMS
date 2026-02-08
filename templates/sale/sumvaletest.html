@@ -1,0 +1,138 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+<style>
+    .success{
+     list-style: none;
+     background-color: #2e6da4;
+     color: white;
+     box-shadow: 12px 12px 12px #e61c66;
+     text-align: center;
+ }
+</style>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+             {% if messages %}
+                    <ul class="messages">
+                           {% for message in messages %}
+                                 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                           {% endfor %}
+                   </ul>
+              {% endif %}
+          <!-- Page Heading -->
+                         <marquee behavior="" direction="right">Welcome To AR-Developer's Academy for any info call us on 0313-2826694 or visit on Youtube AR Developers Academy</marquee>
+                          <marquee behavior="" direction="left">Welcome To AR-Developer's Academy for any info call us on 0313-2826694 or visit on Youtube AR Developers Academy</marquee>
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-secondary text-white">
+                    <div class="card-body"> Total remaing Balance detail</div>
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                              <form class="needs-validation" novalidate>
+                                   <div class="row">
+                                         <!-- Status -->
+                                       <div class="col">
+                                                <div class="col-md">
+                                                    <div class="card text-center text-white mb-3" id="total-orders">
+                                                        <div class="card-header">
+                                                           <h3 class="card-title">ATTOCK PETROLEUM</h3>
+                                                             <h1 class="card-title">Yousafzai Filling Station</h1> <h6>Address : Thakara Mansehra<br> Phone # 0997-543119<br>Mbl # 0311-1111161</h6>
+                                                            <hr>
+                                                            <h5 class="card-title">Total Summary of Selected Data</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                                 <table class="table table-sm">
+                                                                     <tr>
+                                                                        <th>Total</th>
+                                                                         <th>Paid</th>
+                                                                         <th>Rmg</th>
+                                                                     </tr>
+                                                                <tr>
+                                                                    <td></td>
+                                                                      <td id="tolpaids" style="font-weight: bold;"></td>
+                                                                    <td id="tolrmgs" style="font-weight: bold;"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                       <!-- End Status -->
+                                    </div>
+                                  <br>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <h5>Total Remaning Amount</h5>
+                                            <div class="card card-body">
+                                                <table class="table table-sm">
+                                                        <tr>
+                                                            <th>No</th>
+                                                             <th>Account</th>
+                                                              <th>Total</th>
+                                                              <th>Paid</th>
+                                                            <th>Rmg</th>
+                                                        </tr>
+                                                        {% for i in queryset %}
+                                                        <tr>
+                                                             <td>{{forloop.counter}}</td>
+                                                            <td>{{i.account}}</td>
+                                                             <td>{{i.totalAmount|floatformat:2}}</td>
+                                                            <td>{{i.paidAmount|floatformat:2}}</td>
+                                                            <td>{{i.remainingAmount|floatformat:2}}</td>
+                                                              </tr>
+                                                        {% endfor %}
+                                                    <tr>
+                                                         <td colspan="3" style="font-weight: bold;">Total Balance</td>
+                                                         <td id="tolpaid" style="font-weight: bold;"></td>
+                                                         <td id="tolrmg" style="font-weight: bold;"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                              </form>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+   <script>
+
+
+                                  $(document).ready(function()
+                                  {
+                                    var paidAmount;
+                                    var totalpaidAmount=0;
+                                    $('td:nth-child(4)').each(function()
+                                    {
+                                      paidAmount=$(this).html();
+                                      totalpaidAmount+=parseFloat(paidAmount);
+                                      $('#tolpaid').text(totalpaidAmount);
+                                       $('#tolpaids').text(totalpaidAmount);
+                                    });
+                                  });
+
+                                   $(document).ready(function()
+                                  {
+                                    var remainingAmount;
+                                    var totalremainingAmount=0;
+                                    $('td:nth-child(5)').each(function()
+                                    {
+                                      remainingAmount=$(this).html();
+                                      totalremainingAmount+=parseFloat(remainingAmount);
+                                      $('#tolrmg').text(totalremainingAmount);
+                                       $('#tolrmgs').text(totalremainingAmount);
+                                    });
+                                  });
+
+                        </script>
+{% include 'base/footer.html' %}
+{{total}}
+{% for i in total %}
+    <p>{{i}}</p>
+{% endfor %}
+</body>
+</html>

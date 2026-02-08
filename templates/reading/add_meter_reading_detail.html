@@ -1,0 +1,1808 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR-SOFT | Fuel Station Meter Reading</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #858796;
+            --success-color: #1cc88a;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+            --info-color: #36b9cc;
+            --dark-color: #5a5c69;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fc;
+            padding-top: 20px;
+        }
+        
+        .header-marquee {
+            background: linear-gradient(135deg, var(--primary-color), #224abe);
+            color: white;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .main-card {
+            border-radius: 10px;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-bottom: 20px;
+            border: none;
+        }
+        
+        .card-header-custom {
+            background: linear-gradient(135deg, var(--primary-color), #224abe);
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+            padding: 15px 20px;
+            border: none;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #5a5c69;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .form-control {
+            border: 2px solid #e3e6f0;
+            border-radius: 6px;
+            padding: 8px 12px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+        }
+        
+        .unit-row {
+            background-color: #f8f9fc;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .input-group-text {
+            background-color: #f8f9fc;
+            border: 2px solid #e3e6f0;
+        }
+        
+        .btn-custom-primary {
+            background: linear-gradient(135deg, var(--primary-color), #224abe);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-custom-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(78, 115, 223, 0.4);
+        }
+        
+        .comparison-row {
+            background-color: #fff8e1;
+            border: 1px solid #ffecb3;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .match {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .mismatch {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+        
+        .fuel-badge {
+            font-size: 0.75rem;
+            padding: 0.3em 0.6em;
+            font-weight: 600;
+        }
+        
+        .fuel-diesel {
+            background-color: #343a40;
+            color: white;
+        }
+        
+        .fuel-petrol {
+            background-color: #e74a3b;
+            color: white;
+        }
+        
+        .fuel-high-octane {
+            background-color: #6610f2;
+            color: white;
+        }
+        
+        .fuel-cng {
+            background-color: #20c997;
+            color: white;
+        }
+        
+        .fuel-lpg {
+            background-color: #fd7e14;
+            color: white;
+        }
+        
+        .status-badge {
+            font-size: 0.7rem;
+            padding: 0.2em 0.5em;
+        }
+        
+        .status-active {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .status-inactive {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .status-maintenance {
+            background-color: var(--warning-color);
+            color: #000;
+        }
+        
+        .summary-card {
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #e3e6f0;
+        }
+        
+        .summary-card .card-header {
+            background-color: #f8f9fc;
+            border-bottom: 2px solid var(--primary-color);
+            font-weight: 600;
+            padding: 10px 15px;
+        }
+        
+        .dynamic-unit-section {
+            border: 1px solid #e3e6f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .remove-unit-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+        
+        .fuel-total-card {
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .total-diesel {
+            border-left: 4px solid #343a40;
+            background-color: rgba(52, 58, 64, 0.05);
+        }
+        
+        .total-petrol {
+            border-left: 4px solid #e74a3b;
+            background-color: rgba(231, 74, 59, 0.05);
+        }
+        
+        .total-high-octane {
+            border-left: 4px solid #6610f2;
+            background-color: rgba(102, 16, 242, 0.05);
+        }
+        
+        .total-cng {
+            border-left: 4px solid #20c997;
+            background-color: rgba(32, 201, 151, 0.05);
+        }
+        
+        .total-lpg {
+            border-left: 4px solid #fd7e14;
+            background-color: rgba(253, 126, 20, 0.05);
+        }
+        
+        .rate-input-group {
+            border-left: 4px solid;
+            border-radius: 6px;
+            padding: 8px;
+            background-color: #f8f9fc;
+            margin-bottom: 10px;
+        }
+        
+        .summary-table th {
+            background-color: #f8f9fc;
+            font-weight: 700;
+            color: #5a5c69;
+            border-top: none;
+        }
+        
+        .summary-table td {
+            vertical-align: middle;
+        }
+        
+        .cash-amount {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .credit-amount {
+            color: var(--warning-color);
+            font-weight: 600;
+        }
+        
+        .total-amount {
+            color: var(--success-color);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header-marquee">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="mb-0"><i class="fas fa-gas-pump me-2"></i>AR-SOFT Fuel Station System</h4>
+                </div>
+                <div class="text-end">
+                    <small><i class="fas fa-calendar-alt me-1"></i> <span id="currentDate"></span></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-0 text-gray-800">
+                    <i class="fas fa-tachometer-alt me-2"></i>Advanced Meter Reading System
+                </h1>
+                <p class="text-muted mb-0">Record fuel consumption for all fuel types</p>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-success" id="addDispenserBtn">
+                    <i class="fas fa-plus-circle me-2"></i> Add Dispenser
+                </button>
+            </div>
+        </div>
+
+        <!-- Alert Container -->
+        <div id="alertContainer" class="mb-3"></div>
+
+        <!-- Main Form -->
+        <form action="" method="post" id="meterForm" name="meterForm">
+            {% csrf_token %}
+            
+            <!-- Date Section -->
+            <div class="card main-card">
+                <div class="card-header card-header-custom">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-calendar-alt me-2"></i>Reading Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Reading Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" name="reading_date" id="reading_date" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Station Name</label>
+                            <input type="text" class="form-control" name="station_name" value="Main Fuel Station" readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Shift</label>
+                            <select class="form-control" name="shift" id="shift">
+                                <option value="morning">Morning Shift</option>
+                                <option value="evening">Evening Shift</option>
+                                <option value="night">Night Shift</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Reading By</label>
+                            <input type="text" class="form-control" value="{{ user.username|default:'Admin' }}" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dispensers Section -->
+            <div class="card main-card">
+                <div class="card-header card-header-custom d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-gas-pump me-2"></i>Dispensers Meter Reading
+                    </h5>
+                    <span class="badge bg-light text-primary" id="dispenserCount">1 Dispenser</span>
+                </div>
+                <div class="card-body">
+                    <div id="dispensersContainer">
+                        <!-- Dispenser 1 (Default) -->
+                        <div class="dynamic-unit-section position-relative" data-dispenser-id="1">
+                            <button type="button" class="btn btn-danger btn-sm remove-unit-btn" 
+                                    onclick="removeDispenser(this)" title="Remove Dispenser">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-gas-pump me-2"></i>Dispenser 1
+                                        <span class="badge fuel-diesel ms-2">Diesel</span>
+                                    </h6>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <label class="form-label me-2">Status:</label>
+                                    <select class="form-select d-inline-block w-auto status-select" 
+                                            name="dispensers[1][status]" style="padding: 0.25rem 0.5rem;">
+                                        <option value="active" class="status-active" selected>Active</option>
+                                        <option value="inactive" class="status-inactive">Inactive</option>
+                                        <option value="maintenance" class="status-maintenance">Maintenance</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Digital Meter -->
+                            <div class="unit-row mb-3">
+                                <div class="row g-3">
+                                    <div class="col-md-2">
+                                        <label class="form-label">Digital Meter</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Current</span>
+                                            <input type="number" step="0.01" class="form-control digital-current" 
+                                                   name="dispensers[1][digital][current]" value="0" min="0" required>
+                                            <span class="input-group-text">Ltr</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">&nbsp;</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Previous</span>
+                                            <input type="number" step="0.01" class="form-control digital-previous" 
+                                                   name="dispensers[1][digital][previous]" value="0" min="0" required>
+                                            <span class="input-group-text">Ltr</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">&nbsp;</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Consumption</span>
+                                            <input type="number" step="0.01" class="form-control digital-consumption" 
+                                                   name="dispensers[1][digital][consumption]" value="0" readonly>
+                                            <span class="input-group-text">Ltr</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Fuel Type</label>
+                                        <select class="form-control fuel-type" name="dispensers[1][fuel_type]" required>
+                                            <option value="diesel" selected>Diesel</option>
+                                            <option value="petrol">Petrol</option>
+                                            <option value="high_octane">High Octane</option>
+                                            <option value="cng">CNG</option>
+                                            <option value="lpg">LPG</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Difference</label>
+                                        <div class="form-control text-center bg-light" id="dispenser1Diff">
+                                            <span class="match">0.00 ✓</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Analog Meter -->
+                            <div class="unit-row">
+                                <div class="row g-3">
+                                    <div class="col-md-2">
+                                        <label class="form-label">Analog Meter</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Current</span>
+                                            <input type="number" step="0.01" class="form-control analog-current" 
+                                                   name="dispensers[1][analog][current]" value="0" min="0" required>
+                                            <span class="input-group-text" id="unitType1">Ltr</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">&nbsp;</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Previous</span>
+                                            <input type="number" step="0.01" class="form-control analog-previous" 
+                                                   name="dispensers[1][analog][previous]" value="0" min="0" required>
+                                            <span class="input-group-text" id="unitType2">Ltr</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">&nbsp;</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Consumption</span>
+                                            <input type="number" step="0.01" class="form-control analog-consumption" 
+                                                   name="dispensers[1][analog][consumption]" value="0" readonly>
+                                            <span class="input-group-text" id="unitType3">Ltr</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">For Calculation</label>
+                                        <div class="form-control bg-success text-white text-center fw-bold">
+                                            ✓ Active for Calculation
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Status</label>
+                                        <div class="form-control text-center status-active fw-bold">
+                                            ACTIVE
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Comparison Summary -->
+                    <div class="comparison-row mt-4">
+                        <h6 class="mb-3">
+                            <i class="fas fa-balance-scale me-2"></i>Meter Reading Comparison Summary
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="fuel-total-card total-diesel">
+                                    <small class="text-muted">Digital Diesel</small>
+                                    <div class="h6 mb-0" id="totalDigitalDiesel">0.00 Ltr</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fuel-total-card total-diesel">
+                                    <small class="text-muted">Analog Diesel</small>
+                                    <div class="h6 mb-0" id="totalAnalogDiesel">0.00 Ltr</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fuel-total-card total-petrol">
+                                    <small class="text-muted">Digital Petrol</small>
+                                    <div class="h6 mb-0" id="totalDigitalPetrol">0.00 Ltr</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="fuel-total-card total-petrol">
+                                    <small class="text-muted">Analog Petrol</small>
+                                    <div class="h6 mb-0" id="totalAnalogPetrol">0.00 Ltr</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Diesel Diff:</span>
+                                            <strong id="dieselDifference" class="match">0.00 Ltr ✓</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Petrol Diff:</span>
+                                            <strong id="petrolDifference" class="match">0.00 Ltr ✓</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex justify-content-between">
+                                            <span>H. Octane Diff:</span>
+                                            <strong id="highOctaneDifference" class="match">0.00 Ltr ✓</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Overall Status:</span>
+                                            <strong id="overallStatus" class="match">ALL OK ✓</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fuel Rate Settings -->
+            <div class="card main-card">
+                <div class="card-header card-header-custom">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-dollar-sign me-2"></i>Fuel Rate Settings
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="rate-input-group" style="border-left-color: #343a40;">
+                                <label class="form-label">Diesel Rate</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.01" class="form-control fuel-rate" 
+                                           id="diesel_rate" value="0" required>
+                                    <span class="input-group-text">Rs/Ltr</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="rate-input-group" style="border-left-color: #e74a3b;">
+                                <label class="form-label">Petrol Rate</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.01" class="form-control fuel-rate" 
+                                           id="petrol_rate" value="0" required>
+                                    <span class="input-group-text">Rs/Ltr</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="rate-input-group" style="border-left-color: #6610f2;">
+                                <label class="form-label">High Octane Rate</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.01" class="form-control fuel-rate" 
+                                           id="high_octane_rate" value="0" required>
+                                    <span class="input-group-text">Rs/Ltr</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="rate-input-group" style="border-left-color: #20c997;">
+                                <label class="form-label">CNG Rate</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.01" class="form-control fuel-rate" 
+                                           id="cng_rate" value="0" required>
+                                    <span class="input-group-text">Rs/Kg</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="rate-input-group" style="border-left-color: #fd7e14;">
+                                <label class="form-label">LPG Rate</label>
+                                <div class="input-group">
+                                    <input type="number" step="0.01" class="form-control fuel-rate" 
+                                           id="lpg_rate" value="0" required>
+                                    <span class="input-group-text">Rs/Kg</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="alert alert-info">
+                                <small>
+                                    <i class="fas fa-info-circle me-1"></i> 
+                                    These rates apply to all calculations automatically.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Sales Calculation (Based on Analog Meter) -->
+            <div class="card main-card">
+                <div class="card-header card-header-custom">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-calculator me-2"></i>Sales Calculation
+                        <small class="text-light ms-2">(Based on Analog Meter Readings)</small>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Fuel Totals -->
+                    <div class="row mb-4">
+                        <div class="col-md-2">
+                            <div class="fuel-total-card total-diesel">
+                                <small class="text-muted">Total Diesel</small>
+                                <div class="h5 mb-0" id="totalDieselQty">0.00 Ltr</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="fuel-total-card total-petrol">
+                                <small class="text-muted">Total Petrol</small>
+                                <div class="h5 mb-0" id="totalPetrolQty">0.00 Ltr</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="fuel-total-card total-high-octane">
+                                <small class="text-muted">Total High Octane</small>
+                                <div class="h5 mb-0" id="totalHighOctaneQty">0.00 Ltr</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="fuel-total-card total-cng">
+                                <small class="text-muted">Total CNG</small>
+                                <div class="h5 mb-0" id="totalCngQty">0.00 Kg</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="fuel-total-card total-lpg">
+                                <small class="text-muted">Total LPG</small>
+                                <div class="h5 mb-0" id="totalLpgQty">0.00 Kg</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="fuel-total-card" style="border-left-color: var(--primary-color);">
+                                <small class="text-muted">Total Consumption</small>
+                                <div class="h5 mb-0" id="totalAllConsumption">0.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diesel Sales -->
+                    <div class="summary-card mb-4">
+                        <div class="card-header bg-dark text-white">
+                            <i class="fas fa-oil-can me-2"></i>Diesel Sales Breakdown
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <label class="form-label">Cash Diesel</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="cash_diesel_qty" value="0">
+                                                <span class="input-group-text">Ltr</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="cash_diesel_amount" value="0" readonly>
+                                                <span class="input-group-text">Rs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <label class="form-label">Credit Diesel</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="credit_diesel_qty" value="0">
+                                                <span class="input-group-text">Ltr</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="credit_diesel_amount" value="0" readonly>
+                                                <span class="input-group-text">Rs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <label class="form-label">Test Diesel</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="test_diesel_qty" value="0">
+                                                <span class="input-group-text">Ltr</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="test_diesel_amount" value="0" readonly>
+                                                <span class="input-group-text">Rs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3 pt-3 border-top">
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Sold Diesel Qty:</span>
+                                        <strong id="soldDieselQty">0.00 Ltr</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Balance Diesel:</span>
+                                        <strong id="balanceDiesel" class="match">0.00 Ltr ✓</strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <h4 class="text-success mb-0">Total Diesel Amount</h4>
+                                    <h2 class="text-success" id="totalDieselAmount">Rs 0.00</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Petrol Sales -->
+                    <div class="summary-card mb-4">
+                        <div class="card-header bg-danger text-white">
+                            <i class="fas fa-gas-pump me-2"></i>Petrol Sales Breakdown
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <label class="form-label">Cash Petrol</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="cash_petrol_qty" value="0">
+                                                <span class="input-group-text">Ltr</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="cash_petrol_amount" value="0" readonly>
+                                                <span class="input-group-text">Rs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <label class="form-label">Credit Petrol</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="credit_petrol_qty" value="0">
+                                                <span class="input-group-text">Ltr</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="credit_petrol_amount" value="0" readonly>
+                                                <span class="input-group-text">Rs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <label class="form-label">Test Petrol</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="test_petrol_qty" value="0">
+                                                <span class="input-group-text">Ltr</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="test_petrol_amount" value="0" readonly>
+                                                <span class="input-group-text">Rs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3 pt-3 border-top">
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Sold Petrol Qty:</span>
+                                        <strong id="soldPetrolQty">0.00 Ltr</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Balance Petrol:</span>
+                                        <strong id="balancePetrol" class="match">0.00 Ltr ✓</strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <h4 class="text-success mb-0">Total Petrol Amount</h4>
+                                    <h2 class="text-success" id="totalPetrolAmount">Rs 0.00</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Other Fuels Summary -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="summary-card h-100">
+                                <div class="card-header" style="background-color: #6610f2; color: white;">
+                                    <i class="fas fa-bolt me-2"></i>High Octane
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <label class="form-label">Total Consumption</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="high_octane_consumption" value="0" readonly>
+                                                <span class="input-group-text">Ltr</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Total Amount</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="high_octane_amount" value="0" readonly>
+                                                <span class="input-group-text">Rs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="summary-card h-100">
+                                <div class="card-header" style="background-color: #20c997; color: white;">
+                                    <i class="fas fa-fire me-2"></i>CNG
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <label class="form-label">Total Consumption</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="cng_consumption" value="0" readonly>
+                                                <span class="input-group-text">Kg</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Total Amount</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="cng_amount" value="0" readonly>
+                                                <span class="input-group-text">Rs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="summary-card h-100">
+                                <div class="card-header" style="background-color: #fd7e14; color: white;">
+                                    <i class="fas fa-flame me-2"></i>LPG
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2">
+                                        <div class="col-12">
+                                            <label class="form-label">Total Consumption</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="lpg_consumption" value="0" readonly>
+                                                <span class="input-group-text">Kg</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Total Amount</label>
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" 
+                                                       id="lpg_amount" value="0" readonly>
+                                                <span class="input-group-text">Rs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                                <!-- Fuel Summary & Calculations -->
+            <div class="card main-card">
+                <div class="card-header card-header-custom">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-calculator me-2"></i>Fuel Summary & Calculations
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered summary-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Fuel Type</th>
+                                    <th>Total Consumption</th>
+                                    <th>Rate</th>
+                                    <th>Cash Amount</th>
+                                    <th>Credit Amount</th>
+                                    <th>Total Amount</th>
+                                    <th>Units Count</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fuelSummaryTable">
+                                <tr>
+                                    <td><span class="badge fuel-diesel">Diesel</span></td>
+                                    <td id="summaryDieselConsumption">0.00 Ltr</td>
+                                    <td id="summaryDieselRate">Rs 300.00/Ltr</td>
+                                    <td id="summaryDieselCash" class="cash-amount">Rs 0.00</td>
+                                    <td id="summaryDieselCredit" class="credit-amount">Rs 0.00</td>
+                                    <td id="summaryDieselTotal" class="total-amount">Rs 0.00</td>
+                                    <td id="summaryDieselUnits">0</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge fuel-petrol">Petrol</span></td>
+                                    <td id="summaryPetrolConsumption">0.00 Ltr</td>
+                                    <td id="summaryPetrolRate">Rs 350.00/Ltr</td>
+                                    <td id="summaryPetrolCash" class="cash-amount">Rs 0.00</td>
+                                    <td id="summaryPetrolCredit" class="credit-amount">Rs 0.00</td>
+                                    <td id="summaryPetrolTotal" class="total-amount">Rs 0.00</td>
+                                    <td id="summaryPetrolUnits">0</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge fuel-high-octane">High Octane</span></td>
+                                    <td id="summaryHighOctaneConsumption">0.00 Ltr</td>
+                                    <td id="summaryHighOctaneRate">Rs 400.00/Ltr</td>
+                                    <td id="summaryHighOctaneCash" class="cash-amount">Rs 0.00</td>
+                                    <td id="summaryHighOctaneCredit" class="credit-amount">Rs 0.00</td>
+                                    <td id="summaryHighOctaneTotal" class="total-amount">Rs 0.00</td>
+                                    <td id="summaryHighOctaneUnits">0</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge fuel-cng">CNG</span></td>
+                                    <td id="summaryCngConsumption">0.00 Kg</td>
+                                    <td id="summaryCngRate">Rs 200.00/Kg</td>
+                                    <td id="summaryCngCash" class="cash-amount">Rs 0.00</td>
+                                    <td id="summaryCngCredit" class="credit-amount">Rs 0.00</td>
+                                    <td id="summaryCngTotal" class="total-amount">Rs 0.00</td>
+                                    <td id="summaryCngUnits">0</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge fuel-lpg">LPG</span></td>
+                                    <td id="summaryLpgConsumption">0.00 Kg</td>
+                                    <td id="summaryLpgRate">Rs 250.00/Kg</td>
+                                    <td id="summaryLpgCash" class="cash-amount">Rs 0.00</td>
+                                    <td id="summaryLpgCredit" class="credit-amount">Rs 0.00</td>
+                                    <td id="summaryLpgTotal" class="total-amount">Rs 0.00</td>
+                                    <td id="summaryLpgUnits">0</td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <th colspan="2">Grand Total</th>
+                                    <th id="summaryTotalConsumption">0.00</th>
+                                    <th id="summaryTotalCash" class="cash-amount">Rs 0.00</th>
+                                    <th id="summaryTotalCredit" class="credit-amount">Rs 0.00</th>
+                                    <th id="summaryGrandTotal" class="total-amount">Rs 0.00</th>
+                                    <th id="summaryTotalUnits">0</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+                    <!-- Grand Total -->
+                    <div class="summary-card mt-4 bg-light">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h5 class="mb-2">Total Sales Amount:</h5>
+                                    <h3 class="text-success mb-0" id="grandTotal">Rs 0.00</h3>
+                                    <small class="text-muted">Sum of all fuel sales</small>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5 class="mb-2">Cash Sales:</h5>
+                                    <h4 class="text-primary mb-0" id="totalCashSales">Rs 0.00</h4>
+                                    <small class="text-muted">Immediate payments</small>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5 class="mb-2">Credit Sales:</h5>
+                                    <h4 class="text-warning mb-0" id="totalCreditSales">Rs 0.00</h4>
+                                    <small class="text-muted">Credit accounts</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="card main-card">
+                <div class="card-header card-header-custom">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-sticky-note me-2"></i>Additional Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="form-label">Remarks / Notes</label>
+                            <textarea class="form-control" name="remarks" id="remarks" rows="3" 
+                                      placeholder="Any additional notes or observations..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="row mb-5">
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-custom-primary btn-lg px-5 me-3">
+                        <i class="fas fa-save me-2"></i>Save All Readings
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-lg px-5 me-3" onclick="resetForm()">
+                        <i class="fas fa-redo me-2"></i>Reset Form
+                    </button>
+                    <button type="button" class="btn btn-info btn-lg px-5" onclick="validateReadings()">
+                        <i class="fas fa-check-circle me-2"></i>Validate
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 bg-white border-top">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span class="text-muted">
+                        © 2024 AR-SOFT & IT Solution. Advanced Fuel Management System
+                    </span>
+                </div>
+                <div class="col-md-6 text-end">
+                    <span class="text-muted">
+                        <i class="fas fa-sync-alt me-1"></i> Real-time Calculation Active
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Global variables
+        let dispenserCounter = 1;
+
+        // Initialize
+        $(document).ready(function() {
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            $('#reading_date').val(today);
+            
+            // Set current date in header
+            const currentDate = new Date().toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            $('#currentDate').text(currentDate);
+            
+            // Initialize calculations
+            calculateAll();
+            
+            // Show initial alert
+            showAlert('System ready. Enter readings to start calculation.', 'info');
+        });
+
+        // Show alert message
+        function showAlert(message, type = 'info') {
+            const alertHtml = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            $('#alertContainer').html(alertHtml);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                $('.alert').alert('close');
+            }, 5000);
+        }
+
+        // Add new dispenser
+        $('#addDispenserBtn').click(function() {
+            addDispenser();
+        });
+
+        // Add dispenser function
+        function addDispenser() {
+            dispenserCounter++;
+            const dispenserId = Date.now();
+            
+            const dispenserHtml = `
+                <div class="dynamic-unit-section position-relative" data-dispenser-id="${dispenserId}">
+                    <button type="button" class="btn btn-danger btn-sm remove-unit-btn" 
+                            onclick="removeDispenser(this)" title="Remove Dispenser">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h6 class="mb-0">
+                                <i class="fas fa-gas-pump me-2"></i>Dispenser ${dispenserCounter}
+                                <span class="badge fuel-diesel ms-2">Diesel</span>
+                            </h6>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <label class="form-label me-2">Status:</label>
+                            <select class="form-select d-inline-block w-auto status-select" 
+                                    name="dispensers[${dispenserId}][status]" style="padding: 0.25rem 0.5rem;">
+                                <option value="active" class="status-active" selected>Active</option>
+                                <option value="inactive" class="status-inactive">Inactive</option>
+                                <option value="maintenance" class="status-maintenance">Maintenance</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Digital Meter -->
+                    <div class="unit-row mb-3">
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                                <label class="form-label">Digital Meter</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Current</span>
+                                    <input type="number" step="0.01" class="form-control digital-current" 
+                                           name="dispensers[${dispenserId}][digital][current]" value="0" min="0" required>
+                                    <span class="input-group-text">Ltr</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Previous</span>
+                                    <input type="number" step="0.01" class="form-control digital-previous" 
+                                           name="dispensers[${dispenserId}][digital][previous]" value="0" min="0" required>
+                                    <span class="input-group-text">Ltr</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Consumption</span>
+                                    <input type="number" step="0.01" class="form-control digital-consumption" 
+                                           name="dispensers[${dispenserId}][digital][consumption]" value="0" readonly>
+                                    <span class="input-group-text">Ltr</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Fuel Type</label>
+                                <select class="form-control fuel-type" name="dispensers[${dispenserId}][fuel_type]" required>
+                                    <option value="diesel" selected>Diesel</option>
+                                    <option value="petrol">Petrol</option>
+                                    <option value="high_octane">High Octane</option>
+                                    <option value="cng">CNG</option>
+                                    <option value="lpg">LPG</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Difference</label>
+                                <div class="form-control text-center bg-light" id="dispenser${dispenserId}Diff">
+                                    <span class="match">0.00 ✓</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Analog Meter -->
+                    <div class="unit-row">
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                                <label class="form-label">Analog Meter</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Current</span>
+                                    <input type="number" step="0.01" class="form-control analog-current" 
+                                           name="dispensers[${dispenserId}][analog][current]" value="0" min="0" required>
+                                    <span class="input-group-text unit-type-1">Ltr</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Previous</span>
+                                    <input type="number" step="0.01" class="form-control analog-previous" 
+                                           name="dispensers[${dispenserId}][analog][previous]" value="0" min="0" required>
+                                    <span class="input-group-text unit-type-2">Ltr</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Consumption</span>
+                                    <input type="number" step="0.01" class="form-control analog-consumption" 
+                                           name="dispensers[${dispenserId}][analog][consumption]" value="0" readonly>
+                                    <span class="input-group-text unit-type-3">Ltr</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">For Calculation</label>
+                                <div class="form-control bg-success text-white text-center fw-bold">
+                                    ✓ Active for Calculation
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Status</label>
+                                <div class="form-control text-center status-active fw-bold">
+                                    ACTIVE
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            $('#dispensersContainer').append(dispenserHtml);
+            updateDispenserCount();
+            calculateAll();
+            showAlert("Dispenser added successfully!", "success");
+        }
+
+        // Remove dispenser
+        function removeDispenser(button) {
+            const dispenserDiv = $(button).closest('.dynamic-unit-section');
+            const dispenserName = dispenserDiv.find('h6').text().trim();
+            
+            if (confirm(`Are you sure you want to remove "${dispenserName}"?`)) {
+                dispenserDiv.remove();
+                updateDispenserCount();
+                calculateAll();
+                showAlert(`"${dispenserName}" removed successfully!`, "warning");
+            }
+        }
+
+        // Update dispenser count
+        function updateDispenserCount() {
+            const dispenserCount = $('#dispensersContainer .dynamic-unit-section').length;
+            $('#dispenserCount').text(`${dispenserCount} Dispenser${dispenserCount !== 1 ? 's' : ''}`);
+        }
+
+        // Get value with null check
+        function getValue(selector) {
+            const element = $(selector);
+            if (!element.length) return 0;
+            const value = parseFloat(element.val());
+            return isNaN(value) ? 0 : value;
+        }
+
+        // Set value
+        function setValue(selector, value) {
+            const element = $(selector);
+            if (element.length) {
+                element.val(value.toFixed(2));
+            }
+        }
+
+        // Update unit type based on fuel type
+        function updateUnitType(dispenserDiv, fuelType) {
+            let unit = 'Ltr';
+            if (fuelType === 'cng' || fuelType === 'lpg') {
+                unit = 'Kg';
+            }
+            
+            dispenserDiv.find('.unit-type-1, .unit-type-2, .unit-type-3').text(unit);
+        }
+
+        // Main calculation function
+        function calculateAll() {
+            try {
+                let totals = {
+                    digital: {
+                        diesel: 0,
+                        petrol: 0,
+                        high_octane: 0,
+                        cng: 0,
+                        lpg: 0
+                    },
+                    analog: {
+                        diesel: 0,
+                        petrol: 0,
+                        high_octane: 0,
+                        cng: 0,
+                        lpg: 0
+                    }
+                };
+                
+                let unitCounts = {
+                    diesel: 0,
+                    petrol: 0,
+                    high_octane: 0,
+                    cng: 0,
+                    lpg: 0
+                };
+                
+                let allMatches = true;
+                let hasActiveDispensers = false;
+                
+                // Calculate for all dispensers
+                $('.dynamic-unit-section').each(function() {
+                    const dispenserDiv = $(this);
+                    const dispenserId = dispenserDiv.data('dispenser-id');
+                    
+                    // Get values
+                    const digitalCurrent = getValue(dispenserDiv.find('.digital-current'));
+                    const digitalPrevious = getValue(dispenserDiv.find('.digital-previous'));
+                    const analogCurrent = getValue(dispenserDiv.find('.analog-current'));
+                    const analogPrevious = getValue(dispenserDiv.find('.analog-previous'));
+                    const fuelType = dispenserDiv.find('.fuel-type').val();
+                    const status = dispenserDiv.find('.status-select').val();
+                    
+                    // Update unit type
+                    updateUnitType(dispenserDiv, fuelType);
+                    
+                    // Update fuel badge
+                    const badge = dispenserDiv.find('.badge');
+                    badge.removeClass('fuel-diesel fuel-petrol fuel-high-octane fuel-cng fuel-lpg');
+                    
+                    switch(fuelType) {
+                        case 'diesel':
+                            badge.addClass('fuel-diesel').text('Diesel');
+                            break;
+                        case 'petrol':
+                            badge.addClass('fuel-petrol').text('Petrol');
+                            break;
+                        case 'high_octane':
+                            badge.addClass('fuel-high-octane').text('High Octane');
+                            break;
+                        case 'cng':
+                            badge.addClass('fuel-cng').text('CNG');
+                            break;
+                        case 'lpg':
+                            badge.addClass('fuel-lpg').text('LPG');
+                            break;
+                    }
+                    
+                    // Calculate consumption
+                    const digitalConsumption = digitalCurrent - digitalPrevious;
+                    const analogConsumption = analogCurrent - analogPrevious;
+                    
+                    // Set consumption values
+                    setValue(dispenserDiv.find('.digital-consumption'), digitalConsumption);
+                    setValue(dispenserDiv.find('.analog-consumption'), analogConsumption);
+                    
+                    // Validate readings
+                    if (digitalConsumption < 0 || analogConsumption < 0) {
+                        dispenserDiv.find('.current-reading').addClass('is-invalid');
+                        allMatches = false;
+                    } else {
+                        dispenserDiv.find('.current-reading').removeClass('is-invalid');
+                    }
+                    
+                    // Update status display
+                    const statusDisplay = dispenserDiv.find('.form-control.bg-success').parent().next().find('.form-control');
+                    statusDisplay.removeClass('status-active status-inactive status-maintenance');
+                    
+                    if (status === 'active') {
+                        statusDisplay.addClass('status-active').text('ACTIVE');
+                        hasActiveDispensers = true;
+                        
+                        // Count units
+                        if (unitCounts[fuelType] !== undefined) {
+                            unitCounts[fuelType]++;
+                        }
+                    } else if (status === 'inactive') {
+                        statusDisplay.addClass('status-inactive').text('INACTIVE');
+                    } else {
+                        statusDisplay.addClass('status-maintenance').text('MAINTENANCE');
+                    }
+                    
+                    // Update totals (only for active status)
+                    if (status === 'active') {
+                        if (totals.digital[fuelType] !== undefined && totals.analog[fuelType] !== undefined) {
+                            totals.digital[fuelType] += digitalConsumption;
+                            totals.analog[fuelType] += analogConsumption;
+                        }
+                    }
+                    
+                    // Calculate difference for this dispenser
+                    const diff = Math.abs(digitalConsumption - analogConsumption);
+                    const diffElement = $(`#dispenser${dispenserId}Diff`);
+                    
+                    if (diff <= 0.01) {
+                        diffElement.html('<span class="match">0.00 ✓</span>');
+                    } else {
+                        diffElement.html(`<span class="mismatch">${diff.toFixed(2)} ✗</span>`);
+                        if (status === 'active') allMatches = false;
+                    }
+                });
+                
+                // Update comparison display
+                $('#totalDigitalDiesel').text(totals.digital.diesel.toFixed(2) + ' Ltr');
+                $('#totalAnalogDiesel').text(totals.analog.diesel.toFixed(2) + ' Ltr');
+                $('#totalDigitalPetrol').text(totals.digital.petrol.toFixed(2) + ' Ltr');
+                $('#totalAnalogPetrol').text(totals.analog.petrol.toFixed(2) + ' Ltr');
+                
+                // Calculate differences
+                const dieselDiff = Math.abs(totals.digital.diesel - totals.analog.diesel);
+                const petrolDiff = Math.abs(totals.digital.petrol - totals.analog.petrol);
+                const highOctaneDiff = Math.abs(totals.digital.high_octane - totals.analog.high_octane);
+                
+                // Update comparison status
+                if (dieselDiff <= 0.01) {
+                    $('#dieselDifference').removeClass('mismatch').addClass('match').text(dieselDiff.toFixed(2) + ' Ltr ✓');
+                } else {
+                    $('#dieselDifference').removeClass('match').addClass('mismatch').text(dieselDiff.toFixed(2) + ' Ltr ✗');
+                }
+                
+                if (petrolDiff <= 0.01) {
+                    $('#petrolDifference').removeClass('mismatch').addClass('match').text(petrolDiff.toFixed(2) + ' Ltr ✓');
+                } else {
+                    $('#petrolDifference').removeClass('match').addClass('mismatch').text(petrolDiff.toFixed(2) + ' Ltr ✗');
+                }
+                
+                if (highOctaneDiff <= 0.01) {
+                    $('#highOctaneDifference').removeClass('mismatch').addClass('match').text(highOctaneDiff.toFixed(2) + ' Ltr ✓');
+                } else {
+                    $('#highOctaneDifference').removeClass('match').addClass('mismatch').text(highOctaneDiff.toFixed(2) + ' Ltr ✗');
+                }
+                
+                // Update overall status
+                if (allMatches && hasActiveDispensers) {
+                    $('#overallStatus').removeClass('mismatch').addClass('match').text('ALL OK ✓');
+                } else {
+                    $('#overallStatus').removeClass('match').addClass('mismatch').text('CHECK NEEDED ✗');
+                }
+                
+                // Set total quantities from Analog meter
+                $('#totalDieselQty').text(totals.analog.diesel.toFixed(2) + ' Ltr');
+                $('#totalPetrolQty').text(totals.analog.petrol.toFixed(2) + ' Ltr');
+                $('#totalHighOctaneQty').text(totals.analog.high_octane.toFixed(2) + ' Ltr');
+                $('#totalCngQty').text(totals.analog.cng.toFixed(2) + ' Kg');
+                $('#totalLpgQty').text(totals.analog.lpg.toFixed(2) + ' Kg');
+                
+                // Calculate total consumption
+                const totalConsumption = totals.analog.diesel + totals.analog.petrol + totals.analog.high_octane + 
+                                        totals.analog.cng + totals.analog.lpg;
+                $('#totalAllConsumption').text(totalConsumption.toFixed(2));
+                
+                // Update Fuel Summary Table
+                updateFuelSummaryTable(totals.analog, unitCounts);
+                
+                // Calculate financials
+                calculateFinancials(totals.analog);
+                
+            } catch (error) {
+                console.error('Calculation error:', error);
+                showAlert('Error in calculation. Please check your inputs.', 'error');
+            }
+        }
+
+        // Update Fuel Summary Table
+        function updateFuelSummaryTable(analogTotals, unitCounts) {
+            try {
+                // Get rates
+                const dieselRate = getValue('#diesel_rate');
+                const petrolRate = getValue('#petrol_rate');
+                const highOctaneRate = getValue('#high_octane_rate');
+                const cngRate = getValue('#cng_rate');
+                const lpgRate = getValue('#lpg_rate');
+                
+                // Get cash and credit amounts
+                const cashDieselAmount = getValue('#cash_diesel_amount');
+                const creditDieselAmount = getValue('#credit_diesel_amount');
+                const cashPetrolAmount = getValue('#cash_petrol_amount');
+                const creditPetrolAmount = getValue('#credit_petrol_amount');
+                
+                // Calculate total amounts
+                const totalDieselAmount = cashDieselAmount + creditDieselAmount + getValue('#test_diesel_amount');
+                const totalPetrolAmount = cashPetrolAmount + creditPetrolAmount + getValue('#test_petrol_amount');
+                const totalHighOctaneAmount = analogTotals.high_octane * highOctaneRate;
+                const totalCngAmount = analogTotals.cng * cngRate;
+                const totalLpgAmount = analogTotals.lpg * lpgRate;
+                
+                // Update Diesel row
+                $('#summaryDieselConsumption').text(analogTotals.diesel.toFixed(2) + ' Ltr');
+                $('#summaryDieselRate').text('Rs ' + dieselRate.toFixed(2) + '/Ltr');
+                $('#summaryDieselCash').text('Rs ' + cashDieselAmount.toFixed(2));
+                $('#summaryDieselCredit').text('Rs ' + creditDieselAmount.toFixed(2));
+                $('#summaryDieselTotal').text('Rs ' + totalDieselAmount.toFixed(2));
+                $('#summaryDieselUnits').text(unitCounts.diesel);
+                
+                // Update Petrol row
+                $('#summaryPetrolConsumption').text(analogTotals.petrol.toFixed(2) + ' Ltr');
+                $('#summaryPetrolRate').text('Rs ' + petrolRate.toFixed(2) + '/Ltr');
+                $('#summaryPetrolCash').text('Rs ' + cashPetrolAmount.toFixed(2));
+                $('#summaryPetrolCredit').text('Rs ' + creditPetrolAmount.toFixed(2));
+                $('#summaryPetrolTotal').text('Rs ' + totalPetrolAmount.toFixed(2));
+                $('#summaryPetrolUnits').text(unitCounts.petrol);
+                
+                // Update High Octane row
+                $('#summaryHighOctaneConsumption').text(analogTotals.high_octane.toFixed(2) + ' Ltr');
+                $('#summaryHighOctaneRate').text('Rs ' + highOctaneRate.toFixed(2) + '/Ltr');
+                $('#summaryHighOctaneCash').text('Rs ' + (analogTotals.high_octane * highOctaneRate).toFixed(2));
+                $('#summaryHighOctaneCredit').text('Rs 0.00');
+                $('#summaryHighOctaneTotal').text('Rs ' + totalHighOctaneAmount.toFixed(2));
+                $('#summaryHighOctaneUnits').text(unitCounts.high_octane);
+                
+                // Update CNG row
+                $('#summaryCngConsumption').text(analogTotals.cng.toFixed(2) + ' Kg');
+                $('#summaryCngRate').text('Rs ' + cngRate.toFixed(2) + '/Kg');
+                $('#summaryCngCash').text('Rs ' + totalCngAmount.toFixed(2));
+                $('#summaryCngCredit').text('Rs 0.00');
+                $('#summaryCngTotal').text('Rs ' + totalCngAmount.toFixed(2));
+                $('#summaryCngUnits').text(unitCounts.cng);
+                
+                // Update LPG row
+                $('#summaryLpgConsumption').text(analogTotals.lpg.toFixed(2) + ' Kg');
+                $('#summaryLpgRate').text('Rs ' + lpgRate.toFixed(2) + '/Kg');
+                $('#summaryLpgCash').text('Rs ' + totalLpgAmount.toFixed(2));
+                $('#summaryLpgCredit').text('Rs 0.00');
+                $('#summaryLpgTotal').text('Rs ' + totalLpgAmount.toFixed(2));
+                $('#summaryLpgUnits').text(unitCounts.lpg);
+                
+                // Calculate totals
+                const totalConsumption = analogTotals.diesel + analogTotals.petrol + analogTotals.high_octane + 
+                                       analogTotals.cng + analogTotals.lpg;
+                const totalCash = cashDieselAmount + cashPetrolAmount + totalHighOctaneAmount + totalCngAmount + totalLpgAmount;
+                const totalCredit = creditDieselAmount + creditPetrolAmount;
+                const grandTotal = totalDieselAmount + totalPetrolAmount + totalHighOctaneAmount + totalCngAmount + totalLpgAmount;
+                const totalUnits = unitCounts.diesel + unitCounts.petrol + unitCounts.high_octane + 
+                                  unitCounts.cng + unitCounts.lpg;
+                
+                // Update footer
+                $('#summaryTotalConsumption').text(totalConsumption.toFixed(2));
+                $('#summaryTotalCash').text('Rs ' + totalCash.toFixed(2));
+                $('#summaryTotalCredit').text('Rs ' + totalCredit.toFixed(2));
+                $('#summaryGrandTotal').text('Rs ' + grandTotal.toFixed(2));
+                $('#summaryTotalUnits').text(totalUnits);
+                
+            } catch (error) {
+                console.error('Summary table update error:', error);
+            }
+        }
+
+        // Calculate financials
+        function calculateFinancials(analogTotals) {
+            try {
+                // Get rates
+                const dieselRate = getValue('#diesel_rate');
+                const petrolRate = getValue('#petrol_rate');
+                const highOctaneRate = getValue('#high_octane_rate');
+                const cngRate = getValue('#cng_rate');
+                const lpgRate = getValue('#lpg_rate');
+                
+                // Get quantities
+                const cashDieselQty = getValue('#cash_diesel_qty');
+                const creditDieselQty = getValue('#credit_diesel_qty');
+                const testDieselQty = getValue('#test_diesel_qty');
+                
+                const cashPetrolQty = getValue('#cash_petrol_qty');
+                const creditPetrolQty = getValue('#credit_petrol_qty');
+                const testPetrolQty = getValue('#test_petrol_qty');
+                
+                // Calculate amounts (using single rate for each fuel type)
+                const cashDieselAmount = cashDieselQty * dieselRate;
+                const creditDieselAmount = creditDieselQty * dieselRate;
+                const testDieselAmount = testDieselQty * dieselRate;
+                
+                const cashPetrolAmount = cashPetrolQty * petrolRate;
+                const creditPetrolAmount = creditPetrolQty * petrolRate;
+                const testPetrolAmount = testPetrolQty * petrolRate;
+                
+                // Calculate other fuel amounts
+                const highOctaneAmount = analogTotals.high_octane * highOctaneRate;
+                const cngAmount = analogTotals.cng * cngRate;
+                const lpgAmount = analogTotals.lpg * lpgRate;
+                
+                // Set amount values
+                setValue('#cash_diesel_amount', cashDieselAmount);
+                setValue('#credit_diesel_amount', creditDieselAmount);
+                setValue('#test_diesel_amount', testDieselAmount);
+                
+                setValue('#cash_petrol_amount', cashPetrolAmount);
+                setValue('#credit_petrol_amount', creditPetrolAmount);
+                setValue('#test_petrol_amount', testPetrolAmount);
+                
+                setValue('#high_octane_consumption', analogTotals.high_octane);
+                setValue('#high_octane_amount', highOctaneAmount);
+                
+                setValue('#cng_consumption', analogTotals.cng);
+                setValue('#cng_amount', cngAmount);
+                
+                setValue('#lpg_consumption', analogTotals.lpg);
+                setValue('#lpg_amount', lpgAmount);
+                
+                // Calculate totals
+                const totalDieselAmount = cashDieselAmount + creditDieselAmount + testDieselAmount;
+                const totalPetrolAmount = cashPetrolAmount + creditPetrolAmount + testPetrolAmount;
+                
+                $('#totalDieselAmount').text('Rs ' + totalDieselAmount.toFixed(2));
+                $('#totalPetrolAmount').text('Rs ' + totalPetrolAmount.toFixed(2));
+                
+                // Calculate sold quantities
+                const soldDieselQty = cashDieselQty + creditDieselQty + testDieselQty;
+                const soldPetrolQty = cashPetrolQty + creditPetrolQty + testPetrolQty;
+                
+                // Calculate balance
+                const balanceDiesel = analogTotals.diesel - soldDieselQty;
+                const balancePetrol = analogTotals.petrol - soldPetrolQty;
+                
+                // Update display
+                $('#soldDieselQty').text(soldDieselQty.toFixed(2) + ' Ltr');
+                $('#soldPetrolQty').text(soldPetrolQty.toFixed(2) + ' Ltr');
+                
+                if (Math.abs(balanceDiesel) <= 0.01) {
+                    $('#balanceDiesel').removeClass('mismatch').addClass('match').text('0.00 Ltr ✓');
+                } else {
+                    $('#balanceDiesel').removeClass('match').addClass('mismatch').text(balanceDiesel.toFixed(2) + ' Ltr ✗');
+                }
+                
+                if (Math.abs(balancePetrol) <= 0.01) {
+                    $('#balancePetrol').removeClass('mismatch').addClass('match').text('0.00 Ltr ✓');
+                } else {
+                    $('#balancePetrol').removeClass('match').addClass('mismatch').text(balancePetrol.toFixed(2) + ' Ltr ✗');
+                }
+                
+                // Calculate grand totals
+                const totalCashSales = cashDieselAmount + cashPetrolAmount;
+                const totalCreditSales = creditDieselAmount + creditPetrolAmount;
+                const totalOtherSales = highOctaneAmount + cngAmount + lpgAmount;
+                const grandTotal = totalDieselAmount + totalPetrolAmount + totalOtherSales;
+                
+                $('#totalCashSales').text('Rs ' + totalCashSales.toFixed(2));
+                $('#totalCreditSales').text('Rs ' + totalCreditSales.toFixed(2));
+                $('#grandTotal').text('Rs ' + grandTotal.toFixed(2));
+                
+            } catch (error) {
+                console.error('Financial calculation error:', error);
+            }
+        }
+
+        // Validate readings
+        function validateReadings() {
+            let errors = [];
+            let warnings = [];
+            
+            // Check if date is selected
+            if (!getValue('#reading_date')) {
+                errors.push('Please select a reading date');
+            }
+            
+            // Check if there are dispensers
+            if ($('.dynamic-unit-section').length === 0) {
+                errors.push('Please add at least one dispenser');
+            }
+            
+            // Check if current readings are greater than previous readings
+            $('.dynamic-unit-section').each(function() {
+                const dispenserDiv = $(this);
+                const dispenserName = dispenserDiv.find('h6').text().trim();
+                const digitalCurrent = getValue(dispenserDiv.find('.digital-current'));
+                const digitalPrevious = getValue(dispenserDiv.find('.digital-previous'));
+                const analogCurrent = getValue(dispenserDiv.find('.analog-current'));
+                const analogPrevious = getValue(dispenserDiv.find('.analog-previous'));
+                const status = dispenserDiv.find('.status-select').val();
+                
+                if (status === 'active') {
+                    if (digitalCurrent < digitalPrevious) {
+                        errors.push(`${dispenserName} Digital: Current (${digitalCurrent}) < Previous (${digitalPrevious})`);
+                    }
+                    
+                    if (analogCurrent < analogPrevious) {
+                        errors.push(`${dispenserName} Analog: Current (${analogCurrent}) < Previous (${analogPrevious})`);
+                    }
+                    
+                    // Check for large differences between digital and analog
+                    const digitalConsumption = digitalCurrent - digitalPrevious;
+                    const analogConsumption = analogCurrent - analogPrevious;
+                    const diff = Math.abs(digitalConsumption - analogConsumption);
+                    
+                    if (diff > 1.00) {
+                        warnings.push(`${dispenserName}: Large difference (${diff.toFixed(2)}) between meters`);
+                    }
+                }
+            });
+            
+            if (errors.length > 0) {
+                showAlert('Validation Errors:<br>' + errors.join('<br>'), 'error');
+                return false;
+            } else if (warnings.length > 0) {
+                showAlert('Validation Warnings:<br>' + warnings.join('<br>'), 'warning');
+                return true;
+            } else {
+                showAlert('All validations passed! Ready to save.', 'success');
+                return true;
+            }
+        }
+
+        // Reset form
+        function resetForm() {
+            if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+                $('#meterForm')[0].reset();
+                // Keep only first dispenser
+                $('.dynamic-unit-section:not(:first)').remove();
+                dispenserCounter = 1;
+                updateDispenserCount();
+                calculateAll();
+                showAlert('Form has been reset.', 'info');
+            }
+        }
+
+        // Form submission
+        $('#meterForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateReadings()) {
+                showAlert('Please fix validation errors before saving.', 'error');
+                return false;
+            }
+            
+            showAlert('Saving readings... Please wait.', 'info');
+            
+            // Simulate save delay
+            setTimeout(() => {
+                showAlert('Readings saved successfully!', 'success');
+                // Here you would normally submit the form
+                // this.submit();
+            }, 1500);
+            
+            return true;
+        });
+
+        // Auto-calculate on input
+        $(document).on('input', 'input[type="number"], select', calculateAll);
+        
+        // Auto-balance cash quantities
+        $(document).on('input', '#credit_diesel_qty, #test_diesel_qty', function() {
+            const totalDiesel = parseFloat($('#totalDieselQty').text().replace(' Ltr', ''));
+            const creditDiesel = getValue('#credit_diesel_qty');
+            const testDiesel = getValue('#test_diesel_qty');
+            const cashDiesel = totalDiesel - creditDiesel - testDiesel;
+            setValue('#cash_diesel_qty', Math.max(cashDiesel, 0));
+            calculateAll();
+        });
+        
+        $(document).on('input', '#credit_petrol_qty, #test_petrol_qty', function() {
+            const totalPetrol = parseFloat($('#totalPetrolQty').text().replace(' Ltr', ''));
+            const creditPetrol = getValue('#credit_petrol_qty');
+            const testPetrol = getValue('#test_petrol_qty');
+            const cashPetrol = totalPetrol - creditPetrol - testPetrol;
+            setValue('#cash_petrol_qty', Math.max(cashPetrol, 0));
+            calculateAll();
+        });
+        
+        // Add test data for demonstration
+        window.addTestData = function() {
+            // Set test values for first dispenser
+            $('.digital-current:first').val(150);
+            $('.digital-previous:first').val(100);
+            $('.analog-current:first').val(150);
+            $('.analog-previous:first').val(100);
+            $('#credit_diesel_qty').val(20);
+            $('#test_diesel_qty').val(5);
+            
+            // Add a petrol dispenser
+            addDispenser();
+            const lastDispenser = $('.dynamic-unit-section').last();
+            lastDispenser.find('.fuel-type').val('petrol');
+            lastDispenser.find('.badge').removeClass('fuel-diesel').addClass('fuel-petrol').text('Petrol');
+            lastDispenser.find('.digital-current').val(200);
+            lastDispenser.find('.digital-previous').val(150);
+            lastDispenser.find('.analog-current').val(200);
+            lastDispenser.find('.analog-previous').val(150);
+            $('#credit_petrol_qty').val(30);
+            $('#test_petrol_qty').val(10);
+            
+            calculateAll();
+            showAlert('Test data loaded for demonstration.', 'info');
+        }
+    </script>
+</body>
+</html>

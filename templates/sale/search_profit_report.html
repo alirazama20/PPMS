@@ -1,0 +1,159 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-secondary text-white">
+                    <div class="card-body"> Search Profit For Selected Date</div>
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"><a href="/">Click For Dashboard</a> </h5>
+                              <form class="needs-validation" novalidate>
+                                   <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="card card-body">
+                                                <form method="get">
+                                                    {{myFilter.form}}
+                                                <button class="btn btn-primary" type="submit">Search</button>
+                                              </form>
+                                            </div>
+                                        </div>
+                                         <!-- Status -->
+                                       <div class="col">
+                                                <div class="col-md">
+                                                    <div class="card text-center text-white mb-3" id="total-orders">
+                                                        <div class="card-header">
+                                                           <h3 class="card-title">ATTOCK PETROLEUM</h3>
+                                                             <h1 class="card-title">Yousafzai Filling Station</h1> <h6>Address : Thakara Mansehra<br> Phone # 0997-543119<br>Mbl # 0311-1111161</h6>
+                                                            <hr>
+                                                            <h5 class="card-title">Total Summary of Selected Data</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                                 <table class="table table-sm">
+                                                                     <tr>
+                                                                         <th>Qty</th>
+                                                                        <th>Profit</th>
+                                                                     </tr>
+                                                                <tr>
+                                                                    <td id="tolqtty" style="font-weight: bold;"></td>
+                                                                     <td id="tprofit" style="font-weight: bold;"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                       <!-- End Status -->
+                                    </div>
+                                  <br>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <h5>Recent Sale Invoices</h5>
+                                            <div class="card card-body">
+                                                <table id="table_id" class="table table-sm">
+                                                   <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>S.No</th>
+                                                            <th>Acc.</th>
+                                                             <th>Veh-No</th>
+                                                            <th>Product</th>
+                                                            <th>Purchase</th>
+                                                             <th>Sale</th>
+                                                            <th>Qty</th>
+                                                            <th>Profit</th>
+                                                        </tr>
+                                                    </thead>
+                                                     <tbody>
+                                                         {% for i in salebills %}
+                                                            <tr>
+                                                                <td>{{i.date | date}}</td>
+                                                          <td>{{i.invoiceNo}}</td>
+                                                         <td>{{i.account}}</td>
+                                                        <td>{{i.vechile}}</td>
+                                                        <td>{{i.item_name}}</td>
+                                                          <td>{{i.purchase|floatformat:2}}</td>
+                                                        <td>{{i.saleprice|floatformat:2}}</td>
+                                                         <td>{{i.quantity|floatformat:1}}</td>
+                                                          <td>{{i.profit|floatformat:2}}</td>
+                                                            </tr>
+                                                         {% endfor %}
+                                                     </tbody>
+                                                    <tr>
+                                                         <td colspan="7" style="font-weight: bold;">Total</td>
+                                                         <td id="tolqty" style="font-weight: bold;"></td>
+                                                        <td id="tolprofit" style="font-weight: bold;"></td>
+                                                    </tr>
+                                                </table>
+                                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                                                <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.css"/>
+                                                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+                                                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+                                                <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.js"></script>
+
+                                                <!-- needed to use moment.js for our date sorting-->
+                                                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+                                                <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+                                            </div>
+                                        </div>
+                                    </div>
+                              </form>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+<script>
+    $(document).ready( function () {
+
+    $.fn.dataTable.moment( 'MMM D, YYYY' );
+    $.fn.dataTable.moment( 'D-MMM-YY' );
+    $('#table_id').DataTable({
+
+    dom: 'B<"clear">lfrtip',
+    buttons: {
+        name: 'primary',
+        buttons: [ 'copy', 'csv', 'excel', 'pdf' ]
+
+        }}
+    );
+} );
+</script>
+                        <script>
+                         $(document).ready(function()
+                                  {
+                                    var quantity;
+                                    var totalquantity=0;
+                                    $('td:nth-child(8)').each(function()
+                                    {
+                                      quantity=$(this).html();
+                                      totalquantity+=parseFloat(quantity);
+                                      $('#tolqty').text(totalquantity);
+                                       $('#tolqtty').text(totalquantity);
+                                    });
+                                  });
+
+
+                          $(document).ready(function()
+                                  {
+                                    var profit;
+                                    var totalprofit=0;
+                                    $('td:nth-child(9)').each(function()
+                                    {
+                                      profit=$(this).html();
+                                      totalprofit+=parseFloat(profit);
+                                      $('#tolprofit').text(totalprofit);
+                                         $('#tprofit').text(totalprofit);
+
+                                    });
+                                  });
+                        </script>
+{% include 'base/footer.html' %}
+

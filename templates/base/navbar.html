@@ -1,0 +1,267 @@
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">AR-Soft <sup>v.1</sup></div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home-page' %}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Billing
+      </div>
+
+    <!-- Nav Item -Sales Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsesales" aria-expanded="true" aria-controls="collapsesales">
+          <i class="fas fa-fw fa-shopping-cart"></i>
+          <span>Sale</span>
+        </a>
+        <div id="collapsesales" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Sales Details:</h6>
+            <a class="collapse-item" href="{% url 'add-salebill-page' %}">New Invoice</a>
+            <a class="collapse-item" href="{% url 'search-salebill-page' %}">Search Invoices</a>
+             <h6 class="collapse-header">TYrea Sales Details:</h6>
+            <a class="collapse-item" href="{% url 'add-tyresalebill-page' %}">New Tyre Invoice</a>
+            <a class="collapse-item" href="{% url 'search-tyresalebill-page' %}">Search Tyre Invoices</a>
+          </div>
+        </div>
+      </li>
+        <!-- Nav Item -Purchase Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagess" aria-expanded="true" aria-controls="collapsePagess">
+          <i class="fas fa-fw fa-shopping-basket"></i>
+          <span>Purchase</span>
+        </a>
+        <div id="collapsePagess" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Purchase Details:</h6>
+            <a class="collapse-item" href="{% url 'add-purchase-page' %}">Add Purchase</a>
+            <a class="collapse-item" href="{% url 'search-purchasebill-page' %}">Search Purchase</a>
+          </div>
+        </div>
+      </li>
+
+        <!-- Divider -->
+      <hr class="sidebar-divider">
+
+
+      <!-- Nav Item - Expenses Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseExpenses" aria-expanded="true" aria-controls="collapseExpenses">
+          <i class="fas fa-fw fa-money-bill-wave"></i>
+          <span>Expense</span>
+        </a>
+        <div id="collapseExpenses" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Expenses Details:</h6>
+            <a class="collapse-item" href="{% url 'addexpensedetails-page' %}">Add Expense</a>
+            <a class="collapse-item" href="{% url 'searchexpensedetails-page' %}">Search Expenses</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Transport Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClients" aria-expanded="true" aria-controls="collapseClients">
+          <i class="fas fa-fw fa-users"></i>
+          <span>Meter Reading</span>
+        </a>
+        <div id="collapseClients" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Meter Details:</h6>
+            <a class="collapse-item" href="{% url 'add-meter-reading-page' %}">Add Reading</a>
+            <a class="collapse-item" href="{% url 'serach-meter-detail-page' %}">Search Reading</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Stock Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStaff" aria-expanded="true" aria-controls="collapseStaff">
+          <i class="fas fa-fw fa-user-tie"></i>
+          <span>Stock Reg</span>
+        </a>
+        <div id="collapseStaff" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Stock Details:</h6>
+            <a class="collapse-item" href="{% url 'add-stock-page' %}">Add Stock</a>
+            <a class="collapse-item" href="{% url 'search-stock-page' %}">Search Stock</a>
+          </div>
+        </div>
+      </li>
+
+       <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Addons
+      </div>
+
+         <!-- Nav Item - Report Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport" aria-expanded="true" aria-controls="collapseReport">
+          <i class="fas fa-fw fa-user-tie"></i>
+          <span>Reports</span>
+        </a>
+        <div id="collapseReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Report Details:</h6>
+            <a class="collapse-item" href="{% url 'search-salebill-page' %}">Fuel Bill</a>
+            <a class="collapse-item" href="{% url 'search-salebill-report' %}">Fuel Sale Report</a>
+             <a class="collapse-item" href="{% url 'search-tyresalebill-report' %}">Tyre Sale Report</a>
+            <a class="collapse-item" href="{% url 'search-purchasebill-report' %}">Purchase Report</a>
+             <a class="collapse-item" href="{% url 'sum_vale' %}">Total Remaining</a>
+          </div>
+        </div>
+      </li>
+
+        <!-- Nav Item - Report Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseChart" aria-expanded="true" aria-controls="collapseChart">
+          <i class="fas fa-fw fa-user-tie"></i>
+          <span>Charts</span>
+        </a>
+        <div id="collapseChart" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Charts Details:</h6>
+             <a class="collapse-item" href="{% url 'sale-chart' %}">Fuel Chart</a>
+            <a class="collapse-item" href="{% url 'tyre_sale-chart' %}">Tyre Chart</a>
+             <a class="collapse-item" href="{% url 'expenses-chart' %}">Expenses Chart</a>
+             <a class="collapse-item" href="{% url 'employees-chart' %}">Employee Chart</a>
+
+          </div>
+        </div>
+      </li>
+
+           <!-- Nav Item - Gain Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGain" aria-expanded="true" aria-controls="collapseGain">
+          <i class="fas fa-fw fa-user-tie"></i>
+          <span>Gain</span>
+        </a>
+        <div id="collapseGain" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+               <h6 class="collapse-header">Profit Details:</h6>
+             <a class="collapse-item" href="{% url 'search-profit-page' %}">Search Fuel Sale Profit</a>
+             <a class="collapse-item" href="{% url 'search-tyreprofit-page' %}">Search Tyre Profit</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Addons
+      </div>
+
+       <!-- Nav Item - Banking Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#p"  data-target="#collapsebank" aria-expanded="true" aria-controls="collapsebank">
+          <i class="fas fa-fw fa-university"></i>
+          <span>Baking</span>
+        </a>
+      </li>
+
+
+      <!-- Nav Item -Master Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true" aria-controls="collapseMaster">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Master</span>
+        </a>
+        <div id="collapseMaster" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Master Details:</h6>
+            <a class="collapse-item" href="#">Bank Master</a>
+            <a class="collapse-item" href="#">Designation Master</a>
+            <div class="collapse-divider"></div>
+            <h6 class="collapse-header">Miscellaneous Pages:</h6>
+            <a class="collapse-item" href="{% url 'addproduct-page' %}">Item Master</a>
+            <a class="collapse-item" href="{% url 'addCommission-page' %}">Account Master</a>
+               <a class="collapse-item" href="{% url 'addDealer-page' %}">Dealer Master</a>
+             <a class="collapse-item" href="{% url 'addExpenses-page' %}">Expense Master</a>
+             <a class="collapse-item" href="{% url 'addEmployee-page' %}">Employee Master</a>
+             <a class="collapse-item" href="{% url 'addVechile-page' %}">Vechile Master</a>
+             <a class="collapse-item" href="{% url 'addRate-page' %}">Rate Master</a>
+
+          </div>
+        </div>
+      </li>
+
+
+      <!-- Nav Item -Tools Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTools" aria-expanded="true" aria-controls="collapseTools">
+          <i class="fas fa-fw fa-tools"></i>
+          <span>Tools</span>
+        </a>
+        <div id="collapseTools" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Login Screens:</h6>
+            <a class="collapse-item" href="#">Login</a>
+            <a class="collapse-item" href="#">Register</a>
+            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+            <div class="collapse-divider"></div>
+            <h6 class="collapse-header">Other Pages:</h6>
+            <a class="collapse-item" href="404.html">404 Page</a>
+            <a class="collapse-item" href="blank.html">Blank Page</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+     <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>

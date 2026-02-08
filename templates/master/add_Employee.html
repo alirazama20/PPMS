@@ -1,0 +1,122 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-primary text-white">
+                    <div class="card-body">Employee Information</div>
+
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"> </h5>
+                                   <form action="" method="post" name="myform">
+                                      {% csrf_token %}
+
+                                          <div class="form-row">
+                                              <div class="col-md-3 mb-2">
+                                                      <label for="name">Employee Name</label>
+                                                      {{forms.emp_name}}
+                                              </div>
+                                                 <div class="col-md-3 mb-2">
+                                                      <label for="name">Salary</label>
+                                                      {{forms.salary}}
+                                              </div>
+
+                                                 <div class="col-md-3 mb-2">
+                                                      <label for="name">Per Day</label>
+                                                      {{forms.perday}}
+                                              </div>
+                                          </div>
+                                        <hr>
+                                      <button type="submit" class="btn btn-primary btn-sm btn btn-block">Save Employee</button>
+
+                                       <div class="form-row">
+                                           <div class="col-md-12">
+                                               <hr>
+                                               <h5>Recent Entries</h5>
+                                                <div class="card card-body">
+                                                    <table class="table table-sm">
+                                                        <tr>
+                                                            <th>Employee Name</th>
+                                                            <th>Salary</th>
+                                                            <th>Per Day</th>
+                                                            <th>Update</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                          {% for i in employee %}
+                                                        <tr>
+                                                             <td>{{i.emp_name}}</td>
+                                                             <td>{{i.salary}}</td>
+                                                             <td>{{i.perday}}</td>
+                                                            <td><a class="btn btn-sm btn-info" href="{% url 'update_employee' i.id %}">Update</a></td>
+                                                            <td><a class="btn btn-sm btn-danger" href="{% url 'delete_employee' i.id %}">Delete</a></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </table>
+                                                </div>
+                                               </div>
+                                       </div>
+
+                                   </form>
+                              <hr>
+                               <div id="container" style="width: 75%;">
+                                <canvas id="employee-chart" data-url="{% url 'employee-chart' %}"></canvas>
+                              </div>
+                                 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                                 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                              <hr>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+    <script>
+
+    $(function () {
+      var $employeeChart = $("#employee-chart");
+      $.ajax({
+        url: $employeeChart.data("url"),
+        success: function (data) {
+
+          var ctx = $employeeChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Salary',
+                backgroundColor: '#4E73DF',
+                data: data.data
+              }]
+            },
+            options: {
+              responsive: true,
+              legend: {
+                position: 'right',
+              },
+              title: {
+                display: true,
+                text: 'Employee Bar Chart'
+              }
+            }
+          });
+
+        }
+      });
+
+    });
+                        </script>
+{% include 'base/footer.html' %}
+

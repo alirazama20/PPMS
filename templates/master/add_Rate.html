@@ -1,0 +1,68 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-primary text-white">
+                    <div class="card-body">Rate Information</div>
+
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"> </h5>
+                                   <form action="" method="post" name="myform">
+                                      {% csrf_token %}
+                                          <div class="form-row">
+                                               <div class="col-md-3 mb-2">
+                                                      <label for="name">Item</label>
+                                                      {{forms.item}}
+                                                </div>
+                                                <div class="col-md-3 mb-2">
+                                                      <label for="name">Rate</label>
+                                                      {{forms.name}}
+                                                </div>
+                                          </div>
+                                        <hr>
+                                      <button type="submit" class="btn btn-primary btn-sm btn btn-block">Save Employee</button>
+
+                                       <div class="form-row">
+                                           <div class="col-md-12">
+                                               <hr>
+                                               <h5>Recent Entries</h5>
+                                                <div class="card card-body">
+                                                    <table class="table table-sm">
+                                                        <tr>
+                                                             <th>Item</th>
+                                                            <th>Rate</th>
+                                                            <th>Update</th>
+                                                        </tr>
+                                                          {% for i in rate %}
+                                                        <tr>
+                                                            <td>{{i.item}}</td>
+                                                            <td>{{i.name}}</td>
+                                                            <td><a class="btn btn-sm btn-info" href="{% url 'update_rate' i.id %}">Update</a></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </table>
+                                                </div>
+                                               </div>
+                                       </div>
+
+                                   </form>
+                          </div>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+{% include 'base/footer.html' %}
+

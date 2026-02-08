@@ -1,0 +1,260 @@
+{% include 'base/header.html' %}
+{% include 'base/navbar.html' %}
+<style>
+    .success{
+     list-style: none;
+     background-color: #2e6da4;
+     color: white;
+     box-shadow: 12px 12px 12px #e61c66;
+     text-align: center;
+ }
+</style>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+             {% if messages %}
+                    <ul class="messages">
+                           {% for message in messages %}
+                                 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                           {% endfor %}
+                   </ul>
+              {% endif %}
+          <!-- Page Heading -->
+             <marquee behavior="" direction="right">Welcome To AR-SOFT & IT Solution</marquee>
+          <!-- Content Row -->
+            <br>
+                 <div class="card bg-secondary text-white">
+                    <div class="card-body">Search & Manage Attock Purchase Bill</div>
+                     <div class="card border-secondary mb-3" style="max-width: 90rem;">
+                          <div class="card-body text-secondary">
+                            <h5 class="card-title"> </h5>
+                              <form class="needs-validation" novalidate>
+                                   <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card card-body">
+                                                <form method="get">
+                                                    {{myFilter.form}}
+                                                <button class="btn btn-primary" type="submit">Search</button>
+                                              </form>
+                                            </div>
+                                        </div>
+                                         <!-- Status -->
+                                       <div class="col">
+                                                <div class="col-md">
+                                                    <div class="card text-center text-white mb-3" id="total-orders">
+                                                        <div class="card-header">
+                                                           <h3 class="card-title">ATTOCK PETROLEUM</h3>
+                                                             <h1 class="card-title">Yousafzai Filling Station</h1>
+                                                            <hr>
+                                                            <h5 class="card-title">Total Summary of Selected Data</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                                 <table class="table table-sm">
+                                                                     <tr>
+                                                                         <th>Qty</th>
+                                                                         <th>Rate</th>
+                                                                         <th>Total</th>
+                                                                         <th>Paid</th>
+                                                                        <th>Remaning</th>
+                                                                     </tr>
+                                                                <tr>
+                                                                    <td id="tolqtty" style="font-weight: bold;"></td>
+                                                                    <td id="" style="font-weight: bold;"></td>
+                                                                     <td id="tolamt" style="font-weight: bold;"></td>
+                                                                     <td id="tolpaids" style="font-weight: bold;"></td>
+                                                                     <td id="tolrmgs" style="font-weight: bold;"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                       <!-- End Status -->
+                                    </div>
+                                  <br>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <h5>Recent Purchase Invoices</h5>
+                                            <div class="card card-body">
+                                                <a class="btn btn-primary  btn-sm btn-block" href="{% url 'add-purchase-page' %}">Add New Bill</a>
+                                                <table class="table table-sm">
+                                                    <tr>
+                                                         <th>Del</th>
+                                                        <th>Invoice Date</th>
+                                                        <th>Invoice.No</th>
+                                                        <th></th>
+                                                         <th></th>
+                                                        <th>Product</th>
+                                                        <th>Qty</th>
+                                                        <th>Rate</th>
+                                                         <th>Total</th>
+                                                        <th>Paid</th>
+                                                       <th>Rmg</th>
+                                                           <th>Rec-Date</th>
+                                                          <th>Remarks</th>
+                                                    </tr>
+                                                    {% for i in purchasebills %}
+                                                    <tr>
+                                                         <td><a class="btn btn-sm btn-danger" href="{% url 'delete_pur_bill' i.id %}">X</a></td>
+                                                         <td>{{i.date | date}}</td>
+                                                          <td>{{i.invoice_No}}</td>
+                                                         <td></td>
+                                                        <td></td>
+                                                        <td><a href="{% url 'update_pur_bill' i.id %}">{{i.product}}</a></td>
+                                                         <td>{{i.quantity|floatformat:1}}</td>
+                                                          <td>{{i.rate|floatformat:2}}</td>
+                                                        <td>{{i.total|floatformat:2}}</td>
+                                                          <td>{{i.paid|floatformat:2}}</td>
+                                                        <td>{{i.remaining|floatformat:2}}</td>
+                                                           <td>{{i.receive_date | date}}</td>
+                                                          <td>{{i.note}}</td>
+                                                          </tr>
+                                                    {% endfor %}
+                                                    <tr>
+                                                         <td colspan="6" style="font-weight: bold;">Total</td>
+                                                         <td id="tolqty" style="font-weight: bold;"></td>
+                                                         <td id="" style="font-weight: bold;"></td>
+                                                           <td id="tolamount" style="font-weight: bold;"></td>
+                                                           <td id="tolpaid" style="font-weight: bold;"></td>
+                                                    </tr>
+                                                    <br>
+                                                    <tr>
+                                                         <td colspan="10" style="font-weight: bold;">Balance</td>
+                                                         <td id="tolrmg" style="font-weight: bold;"></td>
+                                                    </tr>
+                                                </table>
+                                                {% if purchasebills.has_previous %}
+                                                <a href="?page=1">First</a>
+                                                <a href="?page={{purchasebills.previous_page_number}}">Previous</a>
+                                                {% endif %}
+                                                {{purchasebills.number}}<b>/</b>{{purchasebills.paginator.num_pages}}
+                                                {% if purchasebills.has_next %}
+                                                <a href="?page={{purchasebills.next_page_number}}">Next</a>
+                                                <a href="?page={{purchasebills.paginator.num_pages}}">Last</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                              </form>
+                          </div>
+
+                         <hr>
+                                 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                                 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                         <hr>
+                     </div>
+                  </div>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+{% include 'base/script.html' %}
+                        <script>
+                         $(document).ready(function()
+                                  {
+                                    var quantity;
+                                    var totalquantity=0;
+                                    $('td:nth-child(7)').each(function()
+                                    {
+                                      quantity=$(this).html();
+                                      totalquantity+=parseInt(quantity);
+                                      $('#tolqty').text(totalquantity);
+                                       $('#tolqtty').text(totalquantity);
+                                    });
+                                  });
+
+
+                          $(document).ready(function()
+                                  {
+                                    var saleprice;
+                                    var totalsaleprice=0;
+                                    $('td:nth-child(8)').each(function()
+                                    {
+                                      saleprice=$(this).html();
+                                      totalsaleprice+=parseFloat(saleprice);
+                                      $('#tolrate').text(totalsaleprice);
+                                       $('#tolrates').text(totalsaleprice);
+
+                                    });
+                                  });
+
+                                   $(document).ready(function()
+                                  {
+                                    var totalAmount;
+                                    var totaltotalAmount=0;
+                                    $('td:nth-child(9)').each(function()
+                                    {
+                                      totalAmount=$(this).html();
+                                      totaltotalAmount+=parseFloat(totalAmount);
+                                      $('#tolamount').text(totaltotalAmount);
+                                       $('#tolamt').text(totaltotalAmount);
+
+                                    });
+                                  });
+
+                                    $(document).ready(function()
+                                  {
+                                    var paidAmount;
+                                    var totalpaidAmount=0;
+                                    $('td:nth-child(10)').each(function()
+                                    {
+                                      paidAmount=$(this).html();
+                                      totalpaidAmount+=parseFloat(paidAmount);
+                                      $('#tolpaid').text(totalpaidAmount);
+                                        $('#tolpaids').text(totalpaidAmount);
+
+                                    });
+                                  });
+
+                                   $(document).ready(function()
+                                  {
+                                    var remainingAmount;
+                                    var totalremainingAmount=0;
+                                    $('td:nth-child(11)').each(function()
+                                    {
+                                      remainingAmount=$(this).html();
+                                      totalremainingAmount+=parseFloat(remainingAmount);
+                                      $('#tolrmg').text(totalremainingAmount);
+                                       $('#tolrmgs').text(totalremainingAmount);
+                                    });
+                                  });
+
+
+
+     $(function () {
+      var $commissionChart = $("#Account-chart");
+      $.ajax({
+        url: $commissionChart.data("url"),
+        success: function (data) {
+
+          var ctx = $commissionChart[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Total',
+                backgroundColor: '#4E73DF',
+                data: data.data
+              }]
+            },
+            options: {
+              responsive: true,
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Account Bar Chart'
+              }
+            }
+          });
+
+        }
+      });
+
+    });
+                        </script>
+{% include 'base/footer.html' %}
+
